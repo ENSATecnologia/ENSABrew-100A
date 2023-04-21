@@ -1,7 +1,7 @@
 # ENSABrew-100A
 The ENSABrew-100A is an electronic device for automation in the craft beer brewing process! Based on the ATmega 2561 microcontroller, it includes analog inputs (NTC), digital inputs (water level and volume control) and modulated outputs (PWM/SSR). Connection via Wi-Fi or Bluetooth app. All these facilities in a single product.
 
-This project is based on the excellent project: **@MCUdude** :+1: `https://github.com/MCUdude/MegaCore`
+This project is based on the excellent project: :+1: [**@MCUdude/MegaCore**](`https://github.com/MCUdude/MegaCore`)
 
 # MegaCore
 [![Build Status](https://travis-ci.com/MCUdude/MegaCore.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCore) [![MegaCore forum thread](https://img.shields.io/badge/support-forum-blue.svg)](https://forum.arduino.cc/index.php?topic=386733.0)
@@ -27,8 +27,8 @@ Ok, so you're downloaded and installed MegaCore, but how to get started? Here's 
 * Select what kind of programmer you're using under the **Programmers** menu;
 * Hit **Burn Bootloader**. If an LED is connected to pin PB5/PB7, it should flash twice every second;
 * Now that the correct fuse settings is sat and the bootloader burnt, you can upload your code in two ways:
-  (1) Disconnect your programmer tool, and connect a USB to serial adapter to the microcontroller, like shown in the [pinout diagram](#pinout). Then select the correct serial port under the **Tools** menu, and click the **Upload** button. If you're getting some kind of timeout error, it means your RX and TX pins are swapped, or your auto reset circuity isn't working properly (the 100 nF capacitor on the reset line).
-  (2) Keep your programmer connected, and hold down the `shift` button while clicking **Upload**. This will erase the bootloader and upload your code using the programmer tool.
+  1. Disconnect your programmer tool, and connect a USB to serial adapter to the microcontroller, like shown in the [pinout diagram](#pinout). Then select the correct serial port under the **Tools** menu, and click the **Upload** button. If you're getting some kind of timeout error, it means your RX and TX pins are swapped, or your auto reset circuity isn't working properly (the 100 nF capacitor on the reset line).
+  2. Keep your programmer connected, and hold down the `shift` button while clicking **Upload**. This will erase the bootloader and upload your code using the programmer tool.
 
 Your code should now be running on the microcontroller!
 
