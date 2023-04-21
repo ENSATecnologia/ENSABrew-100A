@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="118mm"
+   height="37.253334mm"
+   viewBox="0 0 418.11024 132"
+   id="svg8546"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="AdesivoTeclado_V2.svg">
+  <defs
+     id="defs8548" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.91738281"
+     inkscape:cx="-25.716645"
+     inkscape:cy="-10.719169"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1536"
+     inkscape:window-height="801"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata8551">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Camada 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-239.93317,-389.64304)">
+    <g
+       id="g9178"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300">
+      <rect
+         ry="0"
+         y="389.64304"
+         x="239.93317"
+         height="132"
+         width="418.11023"
+         id="rect4837"
+         style="opacity:1;fill:#18332a;fill-opacity:1;stroke:none;stroke-width:1.83800006;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4725-5"
+         y="429.41318"
+         x="544.27026"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;font-size:7.5px;fill:#f51414;fill-opacity:1"
+           y="429.41318"
+           x="544.27026"
+           id="tspan4727-5"
+           sodipodi:role="line">ESC</tspan></text>
+      <circle
+         id="circle3"
+         r="11.401575"
+         cy="426.22787"
+         cx="394.29431"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <polygon
+         transform="matrix(0.45606299,0,0,0.45606299,382.43664,414.37028)"
+         id="polygon5"
+         points="16,25.83 31,17.17 31,35 "
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.38535881;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <circle
+         transform="matrix(0.86602541,-0.49999999,0.49999999,0.86602541,0,0)"
+         id="circle3-7"
+         r="11.401575"
+         cy="573.78857"
+         cx="186.39037"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <polygon
+         transform="matrix(0.39496214,-0.22803149,0.22803149,0.39496214,432.11521,399.38008)"
+         id="polygon5-6"
+         points="16,25.83 31,17.17 31,35 "
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.38535881;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <circle
+         transform="matrix(0.8660254,0.50000001,-0.50000001,0.8660254,0,0)"
+         id="circle3-7-1"
+         r="11.401575"
+         cy="160.95146"
+         cx="610.59271"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <polygon
+         transform="matrix(0.39496213,0.2280315,-0.2280315,0.39496213,443.97282,428.48658)"
+         id="polygon5-6-0"
+         points="31,35 16,25.83 31,17.17 "
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.38535881;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <circle
+         transform="matrix(0.49999999,0.86602541,-0.86602541,0.49999999,0,0)"
+         id="circle3-7-2"
+         r="11.401575"
+         cy="-221.91805"
+         cx="620.29016"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <polygon
+         transform="matrix(0.22803149,0.39496214,-0.39496214,0.22803149,506.67191,410.03018)"
+         id="polygon5-6-1"
+         points="31,35 16,25.83 31,17.17 "
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:4.38535881;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <circle
+         transform="matrix(0.49999999,0.86602541,-0.86602541,0.49999999,0,0)"
+         id="circle3-7-2-2"
+         r="11.401575"
+         cy="-265.04474"
+         cx="645.71472"
+         style="fill:none;fill-opacity:1;stroke:#f51414;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4725-5-5"
+         y="428.9581"
+         x="338.38492"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;font-size:7.5px;fill:#5fbd74;fill-opacity:1"
+           y="428.9581"
+           x="338.38492"
+           id="tspan4727-5-9"
+           sodipodi:role="line">OK</tspan></text>
+      <circle
+         transform="matrix(0.49999999,0.86602541,-0.86602541,0.49999999,0,0)"
+         id="circle3-7-2-2-6"
+         r="11.401575"
+         cy="-85.471779"
+         cx="541.51282"
+         style="fill:none;fill-opacity:1;stroke:#5fbd74;stroke-width:1.99999988;stroke-linecap:round;stroke-miterlimit:10;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>
