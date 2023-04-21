@@ -1,7 +1,7 @@
 # ENSABrew-100A
 The ENSABrew-100A is an electronic device for automation in the craft beer brewing process! Based on the ATmega 2561 microcontroller, it includes analog inputs (NTC), digital inputs (water level and volume control) and modulated outputs (PWM/SSR). Connection via Wi-Fi or Bluetooth app. All these facilities in a single product.
 
-This project is based on the excellent project: **@github/MCUdude**: `https://github.com/MCUdude/MegaCore`.
+This project is based on the excellent project: **@MCUdude** :+1: `https://github.com/MCUdude/MegaCore`
 
 # MegaCore
 [![Build Status](https://travis-ci.com/MCUdude/MegaCore.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCore) [![MegaCore forum thread](https://img.shields.io/badge/support-forum-blue.svg)](https://forum.arduino.cc/index.php?topic=386733.0)
@@ -35,7 +35,7 @@ Your code should now be running on the microcontroller!
 ## Pinout
 
 ### 64-pin chips
-Since there are no standardized Arduino pinout for this chip family, **@github/MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button.
+Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button.
 
 | ATmega165/169/325/329/645/649                           |
 |---------------------------------------------------------|
