@@ -10,5 +10,5 @@ This installation method requires Arduino IDE version 1.6.4 or greater;
 * Open the **Tools > Board > Boards Manager...** menu item;
 * Wait for the platform indexes to finish downloading;
 * Scroll down until you see the **MegaCore** entry and click on it;
-* Click **Install (version 2.1.1);
+* Click **Install (version 2.1.1)**;
 * After installation is complete close the **Boards Manager** window.
