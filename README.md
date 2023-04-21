@@ -20,13 +20,12 @@ This installation method requires Arduino IDE version 1.6.4 or greater;
 
 ## Getting started with MegaCore
 Ok, so you're downloaded and installed MegaCore, but how to get started? Here's a quick start guide:
-* Hook up your microcontroller as shown in the [pinout diagram](#pinout).
-  - If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted.
-* Open the **Tools > Board** menu item, select **MegaCore** and select our preferred target.
-* 
-* Select your preferred clock frequency. **16 MHz** is standard on most Arduino boards.
-* Select what kind of programmer you're using under the **Programmers** menu.
-* Hit **Burn Bootloader**. If an LED is connected to pin PB5/PB7, it should flash twice every second.
+* Hook up your microcontroller as shown in the [pinout diagram](#pinout);
+  - If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted;
+* Open the **Tools > Board** menu item, select **MegaCore** and select our preferred target;
+* Select your preferred clock frequency. **16 MHz** is standard on most Arduino boards;
+* Select what kind of programmer you're using under the **Programmers** menu;
+* Hit **Burn Bootloader**. If an LED is connected to pin PB5/PB7, it should flash twice every second;
 * Now that the correct fuse settings is sat and the bootloader burnt, you can upload your code in two ways:
   - Disconnect your programmer tool, and connect a USB to serial adapter to the microcontroller, like shown in the [pinout diagram](#pinout). Then select the correct serial port under the **Tools** menu, and click the **Upload** button. If you're getting some kind of timeout error, it means your RX and TX pins are swapped, or your auto reset circuity isn't working properly (the 100 nF capacitor on the reset line).
   - Keep your programmer connected, and hold down the `shift` button while clicking **Upload**. This will erase the bootloader and upload your code using the programmer tool.
