@@ -1,7 +1,7 @@
 # ENSABrew-100A
 The ENSABrew-100A is an electronic device for automation in the craft beer brewing process! Based on the ATmega 2561 microcontroller, it includes analog inputs (NTC), digital inputs (water level and volume control) and modulated outputs (PWM/SSR). Connection via Wi-Fi or Bluetooth app. All these facilities in a single product.
 
-This project is based on the excellent project: @MCUdude.
+This project is based on the excellent project: @MCUdude: `https://github.com/MCUdude/MegaCore`.
 
 # MegaCore
 [![Build Status](https://travis-ci.com/MCUdude/MegaCore.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCore) [![MegaCore forum thread](https://img.shields.io/badge/support-forum-blue.svg)](https://forum.arduino.cc/index.php?topic=386733.0)
