@@ -1,7 +1,7 @@
 # ENSABrew-100A
 The ENSABrew-100A is an electronic device for automation in the craft beer brewing process! Based on the ATmega 2561 microcontroller, it includes analog inputs (NTC), digital inputs (water level and volume control) and modulated outputs (PWM/SSR). Connection via Wi-Fi or Bluetooth app. All these facilities in a single product.
 
-This project is based on the excellent project: :+1: [**@MCUdude/MegaCore**](`https://github.com/MCUdude/MegaCore`)
+This project is based on the excellent project: :+1: [**@MCUdude/MegaCore**](https://github.com/MCUdude/MegaCore)
 
 # MegaCore
 [![Build Status](https://travis-ci.com/MCUdude/MegaCore.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCore) [![MegaCore forum thread](https://img.shields.io/badge/support-forum-blue.svg)](https://forum.arduino.cc/index.php?topic=386733.0)
@@ -21,7 +21,7 @@ This installation method requires Arduino IDE version 1.6.4 or greater;
 ## Getting started with MegaCore
 Ok, so you're downloaded and installed MegaCore, but how to get started? Here's a quick start guide:
 * Hook up your microcontroller as shown in the [pinout diagram](#pinout);
-  * If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted;
+  1. If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted;
 * Open the **Tools > Board** menu item, select **MegaCore** and select our preferred target;
 * Select your preferred clock frequency. **16 MHz** is standard on most Arduino boards;
 * Select what kind of programmer you're using under the **Programmers** menu;
