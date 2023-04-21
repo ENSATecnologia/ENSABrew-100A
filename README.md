@@ -33,6 +33,15 @@ Ok, so you're downloaded and installed MegaCore, but how to get started? Here's 
 
 Your code should now be running on the microcontroller!
 
+## Pinout
+
+### 64-pin chips
+Since there are no standardized Arduino pinout for this chip family, I've created one. I've tried to make it as simple and logical as possible. This pinout makes great sense if you're buying this [cheap breakout boards](http://www.ebay.com/itm/381547311629) at Ebay or AliExpress (just make sure to remove C3 in order to get auto reset working). The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button.
+
+| ATmega165/169/325/329/645/649                           |
+|---------------------------------------------------------|
+| <img src="https://i.imgur.com/YJ3ojm1.png" width="280"> |
+
 ## Programmers
 Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit "Burn bootloader" in order to set the correct fuses and upload the correct bootloader. <br/>
 Make sure you connect an ISP programmer, and select the correct one in the "Programmers" menu. For time critical operations an external oscillator is recommended.
