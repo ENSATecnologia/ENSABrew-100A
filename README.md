@@ -36,7 +36,7 @@ Your code should now be running on the microcontroller!
 ## Pinout
 
 ### 64-pin chips
-Since there are no standardized Arduino pinout for this chip family, I've created one. I've tried to make it as simple and logical as possible. This pinout makes great sense if you're buying this [cheap breakout boards](http://www.ebay.com/itm/381547311629) at Ebay or AliExpress (just make sure to remove C3 in order to get auto reset working). The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button.
+Since there are no standardized Arduino pinout for this chip family, I've created one. @MCUdude tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button.
 
 | ATmega165/169/325/329/645/649                           |
 |---------------------------------------------------------|
