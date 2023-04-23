@@ -42,4 +42,4 @@ Since there are no standardized Arduino pinout for this chip family, **MCUdude**
 | <img src="https://i.imgur.com/YJ3ojm1.png" width="280"> |
 
 ## Programmers
-Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit *"Burn bootloader"* in order to set the correct fuses and upload the correct bootloader. Make sure you connect an ISP programmer, and select the correct one in the *"Programmers"* menu. For time critical operations an external oscillator is recommended.
+Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit **Burn bootloader** in order to set the correct fuses and upload the correct bootloader. Make sure you connect an **ISP programmer**, and select the correct one in the **Programmers** menu. For time critical operations an external oscillator is recommended.
