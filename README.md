@@ -35,11 +35,9 @@ Your code should now be running on the microcontroller!
 ## Pinout ATmega2561 (64-pin chip)
 Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino **pin 13 (PB5)**, is available on the **expansion terminal, pin 26**, and will blink twice if you hit the reset button.
 
-<p align="center">
-| ATmega2561                                                |
-|-----------------------------------------------------------|
-|  <img src="https://i.imgur.com/sweRJs3.jpg" width="280">  |
-</p>
+| ATmega2561                                                                      |
+|---------------------------------------------------------------------------------|
+| <p align="center"> <img src="https://i.imgur.com/sweRJs3.jpg" width="280"> </p> |
 
 ## Programmers
 Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit **Burn bootloader** in order to set the correct fuses and upload the correct bootloader. Make sure you connect an **ISP programmer**, and select the correct one in the **Programmers** menu. For time critical operations an external oscillator is recommended.
