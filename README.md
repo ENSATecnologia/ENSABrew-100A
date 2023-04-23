@@ -42,12 +42,4 @@ Since there are no standardized Arduino pinout for this chip family, **MCUdude**
 | <img src="https://i.imgur.com/YJ3ojm1.png" width="280"> |
 
 ## Programmers
-Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit "Burn bootloader" in order to set the correct fuses and upload the correct bootloader. <br/>
-Make sure you connect an ISP programmer, and select the correct one in the "Programmers" menu. For time critical operations an external oscillator is recommended.
-
-## Write to own flash
-MegaCore uses Optiboot Flash, a bootloader that supports flash writing within the running application, thanks to the work of [@majekw](https://github.com/majekw).
-This means that content from e.g. a sensor can be stored in the flash memory directly without the need of external memory. Flash memory is much faster than EEPROM, and can handle at least 10 000 write cycles before wear becomes an issue.
-For more information on how it works and how you can use this in you own application, check out the [Serial_read_write](https://github.com/MCUdude/MegaCore/blob/master/avr/libraries/Optiboot_flasher/examples/Serial_read_write/Serial_read_write.ino) for a simple proof-of-concept demo, and
-[Flash_put_get](https://github.com/MCUdude/MegaCore/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_put_get/Flash_put_get.ino) + [Flash_iterate](https://github.com/MCUdude/MegaCore/blob/master/avr/libraries/Optiboot_flasher/examples/Flash_iterate/Flash_iterate.ino) for useful examples on how you can store strings, structs and variables to flash and retrieve then afterwards.
-The [Read_write_without_buffer](https://github.com/MCUdude/MegaCore/blob/master/avr/libraries/Optiboot_flasher/examples/Read_write_without_buffer/Read_write_without_buffer.ino) example demonstrate how you can read and write to the flash memory on a lower level without using a RAM buffer.
+Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit *"Burn bootloader"* in order to set the correct fuses and upload the correct bootloader. Make sure you connect an ISP programmer, and select the correct one in the *"Programmers"* menu. For time critical operations an external oscillator is recommended.
