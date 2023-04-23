@@ -36,7 +36,7 @@ Your code should now be running on the microcontroller!
 Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino **pin 13 (PB5)**, is available on the **expansion terminal, pin 26**, and will blink twice if you hit the reset button.
 
 <p align="center">
-  <img src="https://i.imgur.com/sweRJs3.jpg" width="280">
+  <img src="https://i.imgur.com/sweRJs3.jpg" width="350">
 </p>
 
 ## Programmers
