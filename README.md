@@ -20,7 +20,7 @@ This installation method requires Arduino IDE version 1.6.4 or greater;
 
 ## Getting started with MegaCore
 Ok, so you're downloaded and installed MegaCore, but how to get started? Here's a quick start guide:
-* Hook up your microcontroller as shown in the [pinout diagram](#pinout);
+* Hook up your microcontroller as shown in the [pinout diagram](#Pinout);
   1. If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted;
 * Open the **Tools > Board** menu item, select **MegaCore** and select our preferred target;
 * Select your preferred clock frequency. **16 MHz** is standard on most Arduino boards;
@@ -32,7 +32,8 @@ Ok, so you're downloaded and installed MegaCore, but how to get started? Here's 
 
 Your code should now be running on the microcontroller!
 
-## Pinout ATmega2561 (64-pin chip)
+## Pinout 
+#### ATmega2561 (64-pin chip)
 Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino **pin 13 (PB5)**, is available on the **expansion terminal, pin 26**, and will blink twice if you hit the reset button.
 
 <p align="center">
