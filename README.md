@@ -33,7 +33,7 @@ Ok, so you're downloaded and installed MegaCore, but how to get started? Here's 
 Your code should now be running on the microcontroller!
 
 ## Pinout ATmega2561 (64-pin chip)
-Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino pin 13 (PB5), and will blink twice if you hit the reset button -- LD5 (ENSAino-100A).
+Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino pin 13 (**PB5, expansion terminal [pin 26]**), and will blink twice if you hit the reset button.
 
 | ATmega2561                                                                      |
 |---------------------------------------------------------------------------------|
