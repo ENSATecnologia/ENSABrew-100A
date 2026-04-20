@@ -19,7 +19,7 @@
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void startSerial(void ) 
+void startSerial(void )
 {
   Serial.begin(SERIAL_BAUD_RATE); //Para debug
   while (!Serial) {;}
@@ -33,16 +33,16 @@ void startSerial(void )
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void serialReceiver(void ) 
+void serialReceiver(void )
 {
   const char startMarker = '{';
   const char endMarker = '}';
   const uint16_t maxPayloadLength = sizeof(receivedSerial) - 1;
 
-  while (Serial1.available() > 0 && !_newDataSerial) 
+  while (Serial1.available() > 0 && !_newDataSerial)
   {
     dataChar = Serial1.read();
-    if (dataChar == startMarker) 
+    if (dataChar == startMarker)
     {
       _recvInProgress = true;
       disableInterrupts(); // Disable interrupts
@@ -62,10 +62,11 @@ void serialReceiver(void )
         memset(receivedSerial, 0, sizeof(receivedSerial));
         code = F("E16"); // Buffer serial excedido
         enableInterrupts(); // Enable interrupts
+        setJsonData(0x00, 0x00);
         continue;
       }
     }
-    if (dataChar == endMarker) 
+    if (dataChar == endMarker)
     {
       receivedSerial[idx] = '\0'; // Terminate the "String"
       idx = 0;
@@ -81,18 +82,18 @@ void serialReceiver(void )
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void analyzesDataSerial(void ) 
+void analyzesDataSerial(void )
 {
-  if (_newDataSerial) 
-  { 
+  if (_newDataSerial)
+  {
     // https://arduinojson.org/v5/faq/how-to-reuse-a-jsonbuffer/
     _newDataSerial = false;
     const size_t bufferSize = JSON_OBJECT_SIZE(7) + 90;
     DynamicJsonDocument jsonReceivedBuffer(bufferSize);
     DeserializationError jsonError = deserializeJson(jsonReceivedBuffer, receivedSerial);
     JsonObject dataSerialJson = jsonReceivedBuffer.as<JsonObject>();
- 
-    switch (jsonError) 
+
+    switch (jsonError)
     { // https://arduinojson.org/v6/api/misc/deserializationerror/
       case DeserializationError::Ok:
         code = F("A1"); // Deserialization succeeded
@@ -121,11 +122,12 @@ void analyzesDataSerial(void )
     byte command = RESET;
     long parsedTypeCommand = -1;
     long parsedCommand = -1;
-     
-    if (code == F("A1")) 
+    bool isValidCommand = false;
+
+    if (code == F("A1"))
     {
       if (dataSerialJson[F("header")] == F("4E") &&
-          dataSerialJson[F("product")] == F("0002")) 
+          dataSerialJson[F("product")] == F("0002"))
       {
         // Recarrega o envio do keep alive
         controlKeepAlive(_LOAD);
@@ -134,17 +136,18 @@ void analyzesDataSerial(void )
         parsedCommand = hexToDec(dataSerialJson[F("cmd")]);
         if(parsedTypeCommand >= 0x00 && parsedTypeCommand <= 0xFF &&
            parsedCommand >= 0x00 && parsedCommand <= 0xFF)
-        {  
+        {
           typeCommand = parsedTypeCommand;
           command = parsedCommand;
+          isValidCommand = true;
 
           // Garante que o getId seja executado
           String auxIdModule = dataSerialJson[F("id")].as<String>();
           char idModuleChar[10];
           auxIdModule.toCharArray(idModuleChar, 10);
-            
+
           // Verifica o número de série
-          if((strcmp(idModuleChar, configGeral.idModule) != 0)) 
+          if((strcmp(idModuleChar, configGeral.idModule) != 0))
           {
             memset(receivedSerial, 0, sizeof(receivedSerial));
             code = F("E15"); // Número de série inválido
@@ -155,29 +158,33 @@ void analyzesDataSerial(void )
         else
         {
           code = F("E17"); // Campo hex inválido
+          setJsonData(0x00, 0x00);
         }
-        switch (typeCommand) 
+        if (isValidCommand)
         {
-          case 0xCC:
-            
-            requestCommand(typeCommand, command, dataSerialJson);
-            
-            break;
-          
-          case 0xFF:
-            
-            replyCommand(typeCommand, command, dataSerialJson);
-            
-            break;
-          
-          case 0xEE: break;
-          
-          default:
-            
-            passoMaquina = mSTANDBY;
-            code = F("E7"); // typeCommand: Unknown
-            
-            break;
+          switch (typeCommand)
+          {
+            case 0xCC:
+
+              requestCommand(typeCommand, command, dataSerialJson);
+
+              break;
+
+            case 0xFF:
+
+              replyCommand(typeCommand, command, dataSerialJson);
+
+              break;
+
+            case 0xEE: break;
+
+            default:
+
+              passoMaquina = mSTANDBY;
+              code = F("E7"); // typeCommand: Unknown
+
+              break;
+          }
         }
       }
     }
