@@ -45,7 +45,6 @@ void serialReceiver(void )
     if (dataChar == startMarker)
     {
       _recvInProgress = true;
-      disableInterrupts(); // Disable interrupts
     }
     if (_recvInProgress)
     {
@@ -61,7 +60,6 @@ void serialReceiver(void )
         _newDataSerial = false;
         _serialOverflow = true;
         memset(receivedSerial, 0, sizeof(receivedSerial));
-        enableInterrupts(); // Enable interrupts
         continue;
       }
     }
@@ -71,7 +69,6 @@ void serialReceiver(void )
       idx = 0;
       _recvInProgress = false;
       _newDataSerial = true;
-      enableInterrupts(); // Enable interrupts
     }
   }
 }
