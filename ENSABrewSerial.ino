@@ -35,8 +35,9 @@ void startSerial(void )
 
 void serialReceiver(void ) 
 {
-  char startMarker = '{';
-  char endMarker = '}';
+  const char startMarker = '{';
+  const char endMarker = '}';
+  const uint16_t maxPayloadLength = sizeof(receivedSerial) - 1;
 
   while (Serial1.available() > 0 && !_newDataSerial) 
   {
@@ -47,7 +48,23 @@ void serialReceiver(void )
       disableInterrupts(); // Disable interrupts
     }
     if (_recvInProgress)
-      receivedSerial[idx++] = dataChar;
+    {
+      // Evita estouro do buffer serial para manter o parse seguro.
+      if (idx < maxPayloadLength)
+      {
+        receivedSerial[idx++] = dataChar;
+      }
+      else
+      {
+        idx = 0;
+        _recvInProgress = false;
+        _newDataSerial = false;
+        memset(receivedSerial, 0, sizeof(receivedSerial));
+        code = F("E16"); // Buffer serial excedido
+        enableInterrupts(); // Enable interrupts
+        continue;
+      }
+    }
     if (dataChar == endMarker) 
     {
       receivedSerial[idx] = '\0'; // Terminate the "String"
@@ -102,6 +119,8 @@ void analyzesDataSerial(void )
 
     int typeCommand = RESET;
     byte command = RESET;
+    long parsedTypeCommand = -1;
+    long parsedCommand = -1;
      
     if (code == F("A1")) 
     {
@@ -111,10 +130,14 @@ void analyzesDataSerial(void )
         // Recarrega o envio do keep alive
         controlKeepAlive(_LOAD);
 
-        typeCommand = hexToDec(dataSerialJson[F("typeCmd")]);
-        command = hexToDec(dataSerialJson[F("cmd")]);
-        if(typeCommand != 0xFF && command <= 0xFF) 
+        parsedTypeCommand = hexToDec(dataSerialJson[F("typeCmd")]);
+        parsedCommand = hexToDec(dataSerialJson[F("cmd")]);
+        if(parsedTypeCommand >= 0x00 && parsedTypeCommand <= 0xFF &&
+           parsedCommand >= 0x00 && parsedCommand <= 0xFF)
         {  
+          typeCommand = parsedTypeCommand;
+          command = parsedCommand;
+
           // Garante que o getId seja executado
           String auxIdModule = dataSerialJson[F("id")].as<String>();
           char idModuleChar[10];
@@ -128,6 +151,10 @@ void analyzesDataSerial(void )
             setJsonData(0x00, 0x00);
             return;
           }
+        }
+        else
+        {
+          code = F("E17"); // Campo hex inválido
         }
         switch (typeCommand) 
         {
