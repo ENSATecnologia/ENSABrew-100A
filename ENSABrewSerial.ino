@@ -59,10 +59,9 @@ void serialReceiver(void )
         idx = 0;
         _recvInProgress = false;
         _newDataSerial = false;
+        _serialOverflow = true;
         memset(receivedSerial, 0, sizeof(receivedSerial));
-        code = F("E16"); // Buffer serial excedido
         enableInterrupts(); // Enable interrupts
-        setJsonData(0x00, 0x00);
         continue;
       }
     }
@@ -84,6 +83,13 @@ void serialReceiver(void )
 
 void analyzesDataSerial(void )
 {
+  if (_serialOverflow)
+  {
+    _serialOverflow = false;
+    code = F("E16"); // Buffer serial excedido
+    setJsonData(0x00, 0x00);
+  }
+
   if (_newDataSerial)
   {
     // https://arduinojson.org/v5/faq/how-to-reuse-a-jsonbuffer/
@@ -132,8 +138,10 @@ void analyzesDataSerial(void )
         // Recarrega o envio do keep alive
         controlKeepAlive(_LOAD);
 
-        parsedTypeCommand = hexToDec(dataSerialJson[F("typeCmd")]);
-        parsedCommand = hexToDec(dataSerialJson[F("cmd")]);
+        const char *typeCmd = dataSerialJson[F("typeCmd")] | "";
+        const char *cmd = dataSerialJson[F("cmd")] | "";
+        parsedTypeCommand = hexToDec(typeCmd);
+        parsedCommand = hexToDec(cmd);
         if(parsedTypeCommand >= 0x00 && parsedTypeCommand <= 0xFF &&
            parsedCommand >= 0x00 && parsedCommand <= 0xFF)
         {
@@ -142,12 +150,10 @@ void analyzesDataSerial(void )
           isValidCommand = true;
 
           // Garante que o getId seja executado
-          String auxIdModule = dataSerialJson[F("id")].as<String>();
-          char idModuleChar[10];
-          auxIdModule.toCharArray(idModuleChar, 10);
+          const char *idModule = dataSerialJson[F("id")] | "";
 
           // Verifica o número de série
-          if((strcmp(idModuleChar, configGeral.idModule) != 0))
+          if((strcmp(idModule, configGeral.idModule) != 0))
           {
             memset(receivedSerial, 0, sizeof(receivedSerial));
             code = F("E15"); // Número de série inválido
@@ -186,6 +192,11 @@ void analyzesDataSerial(void )
               break;
           }
         }
+      }
+      else
+      {
+        code = F("E2"); // Invalid input
+        setJsonData(0x00, 0x00);
       }
     }
     memset(receivedSerial, 0, sizeof(receivedSerial));

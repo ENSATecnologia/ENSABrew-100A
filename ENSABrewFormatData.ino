@@ -40,16 +40,16 @@ byte converteparaDecimal(byte val)
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-long hexToDec(String hexString)
+long hexToDec(const char *hexString)
 {
-  if (hexString.length() == 0)
+  if (hexString == NULL || hexString[0] == '\0')
     return -1;
 
   long decValue = 0;
   int nextInt;
-  for (register int i = 0; i < hexString.length(); i++)
+  for (register int i = 0; hexString[i] != '\0'; i++)
   {
-    nextInt = int(hexString.charAt(i));
+    nextInt = int(hexString[i]);
     if (nextInt >= '0' && nextInt <= '9')      nextInt = nextInt - '0';
     else if (nextInt >= 'A' && nextInt <= 'F') nextInt = nextInt - 'A' + 10;
     else if (nextInt >= 'a' && nextInt <= 'f') nextInt = nextInt - 'a' + 10;
@@ -58,4 +58,9 @@ long hexToDec(String hexString)
     decValue = (decValue << 4) + nextInt;
   }
   return decValue;
+}
+
+long hexToDec(String hexString)
+{
+  return hexToDec(hexString.c_str());
 }
