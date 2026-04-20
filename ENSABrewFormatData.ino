@@ -20,7 +20,7 @@
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-byte converteParaBCD(byte val) 
+byte converteParaBCD(byte val)
 {
   return ( (val / 10 * 16) + (val % 10) );
 }
@@ -30,7 +30,7 @@ byte converteParaBCD(byte val)
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-byte converteparaDecimal(byte val) 
+byte converteparaDecimal(byte val)
 {
   return ( (val / 16 * 10) + (val % 16) );
 }
@@ -40,18 +40,27 @@ byte converteparaDecimal(byte val)
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-long hexToDec(String hexString) 
+long hexToDec(const char *hexString)
 {
+  if (hexString == NULL || hexString[0] == '\0')
+    return -1;
+
   long decValue = 0;
   int nextInt;
-  for (register int i = 0; i < hexString.length(); i++) 
+  for (register int i = 0; hexString[i] != '\0'; i++)
   {
-    nextInt = int(hexString.charAt(i));
-    if (nextInt >= 48 && nextInt <= 57) nextInt = map(nextInt, 48, 57, 0, 9);
-    if (nextInt >= 65 && nextInt <= 70) nextInt = map(nextInt, 65, 70, 10, 15);
-    if (nextInt >= 97 && nextInt <= 102) nextInt = map(nextInt, 97, 102, 10, 15);
-    nextInt = constrain(nextInt, 0, 15);
-    decValue = (decValue * 16) + nextInt;
+    nextInt = int(hexString[i]);
+    if (nextInt >= '0' && nextInt <= '9')      nextInt = nextInt - '0';
+    else if (nextInt >= 'A' && nextInt <= 'F') nextInt = nextInt - 'A' + 10;
+    else if (nextInt >= 'a' && nextInt <= 'f') nextInt = nextInt - 'a' + 10;
+    else return -1;
+
+    decValue = (decValue << 4) + nextInt;
   }
   return decValue;
+}
+
+long hexToDec(String hexString)
+{
+  return hexToDec(hexString.c_str());
 }

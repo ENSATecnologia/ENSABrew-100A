@@ -19,7 +19,7 @@
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void startSerial(void ) 
+void startSerial(void )
 {
   Serial.begin(SERIAL_BAUD_RATE); //Para debug
   while (!Serial) {;}
@@ -33,28 +33,42 @@ void startSerial(void )
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void serialReceiver(void ) 
+void serialReceiver(void )
 {
-  char startMarker = '{';
-  char endMarker = '}';
+  const char startMarker = '{';
+  const char endMarker = '}';
+  const uint16_t maxPayloadLength = sizeof(receivedSerial) - 1;
 
-  while (Serial1.available() > 0 && !_newDataSerial) 
+  while (Serial1.available() > 0 && !_newDataSerial)
   {
     dataChar = Serial1.read();
-    if (dataChar == startMarker) 
+    if (dataChar == startMarker)
     {
       _recvInProgress = true;
-      disableInterrupts(); // Disable interrupts
     }
     if (_recvInProgress)
-      receivedSerial[idx++] = dataChar;
-    if (dataChar == endMarker) 
+    {
+      // Evita estouro do buffer serial para manter o parse seguro.
+      if (idx < maxPayloadLength)
+      {
+        receivedSerial[idx++] = dataChar;
+      }
+      else
+      {
+        idx = 0;
+        _recvInProgress = false;
+        _newDataSerial = false;
+        _serialOverflow = true;
+        memset(receivedSerial, 0, sizeof(receivedSerial));
+        continue;
+      }
+    }
+    if (dataChar == endMarker)
     {
       receivedSerial[idx] = '\0'; // Terminate the "String"
       idx = 0;
       _recvInProgress = false;
       _newDataSerial = true;
-      enableInterrupts(); // Enable interrupts
     }
   }
 }
@@ -64,18 +78,25 @@ void serialReceiver(void )
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void analyzesDataSerial(void ) 
+void analyzesDataSerial(void )
 {
-  if (_newDataSerial) 
-  { 
+  if (_serialOverflow)
+  {
+    _serialOverflow = false;
+    code = F("E16"); // Buffer serial excedido
+    setJsonData(0x00, 0x00);
+  }
+
+  if (_newDataSerial)
+  {
     // https://arduinojson.org/v5/faq/how-to-reuse-a-jsonbuffer/
     _newDataSerial = false;
     const size_t bufferSize = JSON_OBJECT_SIZE(7) + 90;
     DynamicJsonDocument jsonReceivedBuffer(bufferSize);
     DeserializationError jsonError = deserializeJson(jsonReceivedBuffer, receivedSerial);
     JsonObject dataSerialJson = jsonReceivedBuffer.as<JsonObject>();
- 
-    switch (jsonError) 
+
+    switch (jsonError)
     { // https://arduinojson.org/v6/api/misc/deserializationerror/
       case DeserializationError::Ok:
         code = F("A1"); // Deserialization succeeded
@@ -102,26 +123,34 @@ void analyzesDataSerial(void )
 
     int typeCommand = RESET;
     byte command = RESET;
-     
-    if (code == F("A1")) 
+    long parsedTypeCommand = -1;
+    long parsedCommand = -1;
+    bool isValidCommand = false;
+
+    if (code == F("A1"))
     {
       if (dataSerialJson[F("header")] == F("4E") &&
-          dataSerialJson[F("product")] == F("0002")) 
+          dataSerialJson[F("product")] == F("0002"))
       {
         // Recarrega o envio do keep alive
         controlKeepAlive(_LOAD);
 
-        typeCommand = hexToDec(dataSerialJson[F("typeCmd")]);
-        command = hexToDec(dataSerialJson[F("cmd")]);
-        if(typeCommand != 0xFF && command <= 0xFF) 
-        {  
+        const char *typeCmd = dataSerialJson[F("typeCmd")] | "";
+        const char *cmd = dataSerialJson[F("cmd")] | "";
+        parsedTypeCommand = hexToDec(typeCmd);
+        parsedCommand = hexToDec(cmd);
+        if(parsedTypeCommand >= 0x00 && parsedTypeCommand <= 0xFF &&
+           parsedCommand >= 0x00 && parsedCommand <= 0xFF)
+        {
+          typeCommand = parsedTypeCommand;
+          command = parsedCommand;
+          isValidCommand = true;
+
           // Garante que o getId seja executado
-          String auxIdModule = dataSerialJson[F("id")].as<String>();
-          char idModuleChar[10];
-          auxIdModule.toCharArray(idModuleChar, 10);
-            
+          const char *idModule = dataSerialJson[F("id")] | "";
+
           // Verifica o número de série
-          if((strcmp(idModuleChar, configGeral.idModule) != 0)) 
+          if((strcmp(idModule, configGeral.idModule) != 0))
           {
             memset(receivedSerial, 0, sizeof(receivedSerial));
             code = F("E15"); // Número de série inválido
@@ -129,29 +158,42 @@ void analyzesDataSerial(void )
             return;
           }
         }
-        switch (typeCommand) 
+        else
         {
-          case 0xCC:
-            
-            requestCommand(typeCommand, command, dataSerialJson);
-            
-            break;
-          
-          case 0xFF:
-            
-            replyCommand(typeCommand, command, dataSerialJson);
-            
-            break;
-          
-          case 0xEE: break;
-          
-          default:
-            
-            passoMaquina = mSTANDBY;
-            code = F("E7"); // typeCommand: Unknown
-            
-            break;
+          code = F("E17"); // Campo hex inválido
+          setJsonData(0x00, 0x00);
         }
+        if (isValidCommand)
+        {
+          switch (typeCommand)
+          {
+            case 0xCC:
+
+              requestCommand(typeCommand, command, dataSerialJson);
+
+              break;
+
+            case 0xFF:
+
+              replyCommand(typeCommand, command, dataSerialJson);
+
+              break;
+
+            case 0xEE: break;
+
+            default:
+
+              passoMaquina = mSTANDBY;
+              code = F("E7"); // typeCommand: Unknown
+
+              break;
+          }
+        }
+      }
+      else
+      {
+        code = F("E2"); // Invalid input
+        setJsonData(0x00, 0x00);
       }
     }
     memset(receivedSerial, 0, sizeof(receivedSerial));

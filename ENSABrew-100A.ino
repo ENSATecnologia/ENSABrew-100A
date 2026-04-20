@@ -558,9 +558,10 @@ Thermistor thermistor(PINO_TERMISTOR);
 
 boolean _newDataSerial = false;
 char receivedSerial[DATA_UTIL_SERIAL];
+boolean _serialOverflow = false;
 
 static boolean _recvInProgress = false;
-static uint8_t idx = 0;
+static uint16_t idx = 0;
 volatile char dataChar;
 
 // ----------------------------------------------------------------------- //
