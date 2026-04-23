@@ -1,44 +1,59 @@
-# ENSABrew-100A
-The ENSABrew-100A is an electronic device for automation in the craft beer brewing process! Based on the ATmega 2561 microcontroller, it includes analog inputs (NTC), digital inputs (water level and volume control) and modulated outputs (PWM/SSR). Connection via Wi-Fi or Bluetooth app. All these facilities in a single product.
+# Configurações gerais - pacote e IDE
+--------------
 
-This project is based on the excellent project: :+1: [**@MCUdude/MegaCore**](https://github.com/MCUdude/MegaCore)
+## Configuração do pacote MegaCore - instalação 
 
-# MegaCore
-[![Build Status](https://travis-ci.com/MCUdude/MegaCore.svg?branch=master)](https://travis-ci.com/MCUdude/MegaCore) [![MegaCore forum thread](https://img.shields.io/badge/support-forum-blue.svg)](https://forum.arduino.cc/index.php?topic=386733.0)
+> - **Passo 1**: Entre na IDE do Arduino e clique em: Arquivo - Preferências, como mostrado na imagem à seguir:
 
-## How to install
-#### Boards Manager Installation
-This installation method requires Arduino IDE version 1.6.4 or greater;
-* Open the Arduino IDE;
-* Open the **File > Preferences** menu item;
-* Enter the following URL in **Additional Boards Manager URLs**: `https://mcudude.github.io/MegaCore/package_MCUdude_MegaCore_index.json`
-* Open the **Tools > Board > Boards Manager...** menu item;
-* Wait for the platform indexes to finish downloading;
-* Scroll down until you see the **MegaCore** entry and click on it;
-* Click **Install (version 2.1.1)**;
-* After installation is complete close the **Boards Manager** window.
+<center><img src="imgReadme\passo1.png"></center>
 
-## Getting started with MegaCore
-Ok, so you're downloaded and installed MegaCore, but how to get started? Here's a quick start guide:
-* Hook up your microcontroller as shown in the [pinout diagram](#Pinout);
-  1. If you're not planning to use the bootloader (uploading code using a USB to serial adapter), the FTDI header and the 100 nF capacitor on the reset pin can be omitted;
-* Open the **Tools > Board** menu item, select **MegaCore** and select our preferred target;
-* Select your preferred clock frequency. **16 MHz** is standard on most Arduino boards;
-* Select what kind of programmer you're using under the **Programmers** menu;
-* Hit **Burn Bootloader**. If an LED is connected to pin PB5/PB7, it should flash twice every second;
-* Now that the correct fuse settings is sat and the bootloader burnt, you can upload your code in two ways:
-  1. Disconnect your programmer tool, and connect a USB to serial adapter to the microcontroller, like shown in the [pinout diagram](#pinout). Then select the correct serial port under the **Tools** menu, and click the **Upload** button. If you're getting some kind of timeout error, it means your RX and TX pins are swapped, or your auto reset circuity isn't working properly (the 100 nF capacitor on the reset line).
-  2. Keep your programmer connected, and hold down the `shift` button while clicking **Upload**. This will erase the bootloader and upload your code using the programmer tool.
+> - **Passo 2**: Clique no botão indicado pelo quadrado vermelho na imagem à seguir para abrir a aba de URLs adicionais para Gerenciadores de placas:
 
-Your code should now be running on the microcontroller!
+<center><img src="imgReadme\passo2.png"></center>
 
-## Pinout 
-#### ATmega2561 (64-pin chip)
-Since there are no standardized Arduino pinout for this chip family, **MCUdude** created one tried to make it as simple and logical as possible. The standard LED pin is assigned to Arduino **pin 13 (PB5)**, is available on the **expansion terminal, pin 26**, and will blink twice if you hit the reset button.
+> - **Passo 3**: Copie o link (https://mcudude.github.io/MegaCore/package_MCUdude_MegaCore_index.json) e cole na aba que foi aberta, como na imagem, e clique em OK:
 
-<p align="center">
-  <img src="https://i.imgur.com/sweRJs3.jpg" width="350">
-</p>
+<center><img src="imgReadme\passo3.png"></center>
 
-## Programmers
-Select your microcontroller in the boards menu, then select the clock frequency. You'll have to hit **Burn bootloader** in order to set the correct fuses and upload the correct bootloader. Make sure you connect an **ISP programmer**, and select the correct one in the **Programmers** menu. For time critical operations an external oscillator is recommended.
+> - **Passo 4**: Clique agora em: Ferramentas - Placa - Gerenciador de placas, como mostrado na imagem à seguir:
+
+<center><img src="imgReadme\passo4.png"></center>	
+
+> - **Passo 5**: No campo de busca, digite "MegaCore" e aguarde o pacote aparecer. Após a aparição, selecione a versão 2.0.2 (utilizada neste projeto) e clique em instalar (se ainda não estiver instalada, neste caso, já está), como mostrado na imagem à seguir:
+
+<center><img src="imgReadme\passo5.png"></center>	
+
+> - **Seu pacote MegCore estará completamente instalado!** 
+> - **Para conferir clique em**: Ferramentas - Placa e deslize para baixo até encontrar as placas do pacote MegaCore, como mostrado na imagem à seguir:
+
+<center><img src="imgReadme\passo6.png"></center>
+
+--------------
+
+## - Para mais informações sobre o pacote MegaCore: [Online Help](https://forum.arduino.cc/index.php?topic=386733) | [More Info](https://github.com/MCUdude/MegaCore)
+
+--------------
+
+## Configuração do pacote para gravação - IDE 
+
+![Configuração](imgReadme\configEnsaBrew.png)
+
+--------------
+
+# Informações sobre as bibliotecas do projeto ENSABrew
+
+--------------
+
+## Bibliotecas locais (não necessitam de instalação): "biblioteca..."
+	
+> - Arduino_PID: [Repositório](https://github.com/br3ttb/Arduino-PID-Library.git) | [Documentação](http://playground.arduino.cc/Code/PIDLibrary) - Versão utilizada: 1.2.1
+> - ArduinoJson:  [Repositório](https://github.com/bblanchon/ArduinoJson) | [Documentação](https://arduinojson.org/?utm_source=meta&utm_medium=library.properties) - Versão utilizada: 6.5.0-beta
+> - EEPROM: [Repositório](https://github.com/Chris--A/EEPROM) | [Documentação](http://arduino.cc/en/Reference/EEPROM) - Versão utilizada: 2.0
+> - LiquidCrystal: [Repositório](https://github.com/arduino-libraries/LiquidCrystal) | [Documentação](http://www.arduino.cc/en/Reference/LiquidCrystal) - Versão utilizada: 2.0
+> - LiquidCrystal_I2C: [Repositório](https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library) - Versão utilizada: 2.0
+> - SSD1306Ascii: [Repositório](https://github.com/greiman/SSD1306Ascii) - Versão utilizada: 1.2.2
+> - Thermistor: [Repositório](https://github.com/ItKindaWorks/libraries/tree/master/Thermistor) - Versão utilizada: última - não especificada
+> - TimerFour: [Repositório]() - Versão utilizada: última - não especificada
+> - TimerOne: [Repositório](https://github.com/PaulStoffregen/TimerOne.git) | [Documentação](https://playground.arduino.cc/Code/Timer1/) - Versão utilizada: 1.1
+> - TimerThree: [Repositório](https://github.com/PaulStoffregen/TimerOne.git) | [Documentação](https://github.com/PaulStoffregen/TimerThree.git) - Versão utilizada: 1.1
+> - Wire: [Repositório](https://github.com/PaulStoffregen/Wire) | [Documentação](http://www.arduino.cc/en/Reference/Wire) - Versão utilizada: 1.0
