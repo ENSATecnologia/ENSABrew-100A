@@ -36,7 +36,7 @@
 
 ## Configuração do pacote para gravação - IDE 
 
-![Configuração](imgReadme\configEnsaBrew.png)
+![Configuração](Configuration\configEnsaBrew.png)
 
 --------------
 
