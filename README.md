@@ -5,28 +5,28 @@
 
 > - **Passo 1**: Entre na IDE do Arduino e clique em: Arquivo - Preferências, como mostrado na imagem à seguir:
 
-<center><img src="imgReadme\passo1.png"></center>
+<center><img src="Configuration\passo1.png"></center>
 
 > - **Passo 2**: Clique no botão indicado pelo quadrado vermelho na imagem à seguir para abrir a aba de URLs adicionais para Gerenciadores de placas:
 
-<center><img src="imgReadme\passo2.png"></center>
+<center><img src="Configuration\passo2.png"></center>
 
 > - **Passo 3**: Copie o link (https://mcudude.github.io/MegaCore/package_MCUdude_MegaCore_index.json) e cole na aba que foi aberta, como na imagem, e clique em OK:
 
-<center><img src="imgReadme\passo3.png"></center>
+<center><img src="Configuration\passo3.png"></center>
 
 > - **Passo 4**: Clique agora em: Ferramentas - Placa - Gerenciador de placas, como mostrado na imagem à seguir:
 
-<center><img src="imgReadme\passo4.png"></center>	
+<center><img src="Configuration\passo4.png"></center>	
 
 > - **Passo 5**: No campo de busca, digite "MegaCore" e aguarde o pacote aparecer. Após a aparição, selecione a versão 2.0.2 (utilizada neste projeto) e clique em instalar (se ainda não estiver instalada, neste caso, já está), como mostrado na imagem à seguir:
 
-<center><img src="imgReadme\passo5.png"></center>	
+<center><img src="Configuration\passo5.png"></center>	
 
 > - **Seu pacote MegCore estará completamente instalado!** 
 > - **Para conferir clique em**: Ferramentas - Placa e deslize para baixo até encontrar as placas do pacote MegaCore, como mostrado na imagem à seguir:
 
-<center><img src="imgReadme\passo6.png"></center>
+<center><img src="Configuration\passo6.png"></center>
 
 --------------
 
