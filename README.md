@@ -1,59 +1,69 @@
-# Configurações gerais - pacote e IDE
---------------
+## MegaCore setup
 
-## Configuração do pacote MegaCore - instalação 
+### 1) Install MegaCore using Arduino Boards Manager
 
-> - **Passo 1**: Entre na IDE do Arduino e clique em: Arquivo - Preferências, como mostrado na imagem à seguir:
+This method requires **Arduino IDE 1.6.4 or newer**.
 
-<center><img src="Configuration\passo1.png"></center>
+1. Open the Arduino IDE.
+2. Go to **File > Preferences**.
+3. Add the following URL in **Additional Boards Manager URLs**:
 
-> - **Passo 2**: Clique no botão indicado pelo quadrado vermelho na imagem à seguir para abrir a aba de URLs adicionais para Gerenciadores de placas:
+   ```text
+   https://mcudude.github.io/MegaCore/package_MCUdude_MegaCore_index.json
+   ```
 
-<center><img src="Configuration\passo2.png"></center>
+4. Go to **Tools > Board > Boards Manager...**.
+5. Wait for package indexes to finish downloading.
+6. Find **MegaCore** and click **Install**.
+7. Close the Boards Manager window after installation.
 
-> - **Passo 3**: Copie o link (https://mcudude.github.io/MegaCore/package_MCUdude_MegaCore_index.json) e cole na aba que foi aberta, como na imagem, e clique em OK:
+### 2) First-time board configuration
 
-<center><img src="Configuration\passo3.png"></center>
+1. Wire your microcontroller according to the [pinout](#pinout).
+2. In **Tools > Board**, select **MegaCore** and your target MCU.
+3. Select your preferred clock frequency (**16 MHz** is common).
+4. Select your programmer in **Tools > Programmer**.
+5. Click **Burn Bootloader** to set fuses and bootloader.
 
-> - **Passo 4**: Clique agora em: Ferramentas - Placa - Gerenciador de placas, como mostrado na imagem à seguir:
+### 3) Upload firmware
 
-<center><img src="Configuration\passo4.png"></center>	
+You can upload in two ways:
 
-> - **Passo 5**: No campo de busca, digite "MegaCore" e aguarde o pacote aparecer. Após a aparição, selecione a versão 2.0.2 (utilizada neste projeto) e clique em instalar (se ainda não estiver instalada, neste caso, já está), como mostrado na imagem à seguir:
+1. **Via USB-to-serial adapter**
+   - Disconnect ISP programmer.
+   - Connect USB-to-serial interface.
+   - Select the correct serial port and click **Upload**.
+   - If upload times out, check RX/TX wiring and auto-reset circuit.
 
-<center><img src="Configuration\passo5.png"></center>	
+2. **Via ISP programmer**
+   - Keep programmer connected.
+   - Hold `Shift` while clicking **Upload**.
+   - This uploads directly with the programmer (bootloader is not used).
 
-> - **Seu pacote MegCore estará completamente instalado!** 
-> - **Para conferir clique em**: Ferramentas - Placa e deslize para baixo até encontrar as placas do pacote MegaCore, como mostrado na imagem à seguir:
+---
 
-<center><img src="Configuration\passo6.png"></center>
+## Pinout
 
---------------
+### ATmega2561 (64-pin)
 
-## - Para mais informações sobre o pacote MegaCore: [Online Help](https://forum.arduino.cc/index.php?topic=386733) | [More Info](https://github.com/MCUdude/MegaCore)
+There is no universal Arduino pinout standard for this chip family. MegaCore defines a practical mapping. The default LED pin is Arduino **D13 (PB5)**.
 
---------------
+> On ENSAino-100A, this behavior maps to **LED LD5**, which blinks when reset/bootloader activity occurs.
 
-## Configuração do pacote para gravação - IDE 
+<p align="center">
+  <img src="https://i.imgur.com/sweRJs3.jpg" width="350" alt="ATmega2561 pinout from MegaCore" />
+</p>
 
-![Configuração](Configuration\configEnsaBrew.png)
+---
 
---------------
+## Programmer notes
 
-# Informações sobre as bibliotecas do projeto ENSABrew
+- Always ensure the selected MCU, clock, and programmer match your hardware setup.
+- For time-critical applications, prefer a stable external oscillator.
+- After changing fuse-related options, run **Burn Bootloader** again to apply settings.
 
---------------
+---
 
-## Bibliotecas locais (não necessitam de instalação): "biblioteca..."
-	
-> - Arduino_PID: [Repositório](https://github.com/br3ttb/Arduino-PID-Library.git) | [Documentação](http://playground.arduino.cc/Code/PIDLibrary) - Versão utilizada: 1.2.1
-> - ArduinoJson:  [Repositório](https://github.com/bblanchon/ArduinoJson) | [Documentação](https://arduinojson.org/?utm_source=meta&utm_medium=library.properties) - Versão utilizada: 6.5.0-beta
-> - EEPROM: [Repositório](https://github.com/Chris--A/EEPROM) | [Documentação](http://arduino.cc/en/Reference/EEPROM) - Versão utilizada: 2.0
-> - LiquidCrystal: [Repositório](https://github.com/arduino-libraries/LiquidCrystal) | [Documentação](http://www.arduino.cc/en/Reference/LiquidCrystal) - Versão utilizada: 2.0
-> - LiquidCrystal_I2C: [Repositório](https://github.com/fdebrabander/Arduino-LiquidCrystal-I2C-library) - Versão utilizada: 2.0
-> - SSD1306Ascii: [Repositório](https://github.com/greiman/SSD1306Ascii) - Versão utilizada: 1.2.2
-> - Thermistor: [Repositório](https://github.com/ItKindaWorks/libraries/tree/master/Thermistor) - Versão utilizada: última - não especificada
-> - TimerFour: [Repositório]() - Versão utilizada: última - não especificada
-> - TimerOne: [Repositório](https://github.com/PaulStoffregen/TimerOne.git) | [Documentação](https://playground.arduino.cc/Code/Timer1/) - Versão utilizada: 1.1
-> - TimerThree: [Repositório](https://github.com/PaulStoffregen/TimerOne.git) | [Documentação](https://github.com/PaulStoffregen/TimerThree.git) - Versão utilizada: 1.1
-> - Wire: [Repositório](https://github.com/PaulStoffregen/Wire) | [Documentação](http://www.arduino.cc/en/Reference/Wire) - Versão utilizada: 1.0
+## Credits
+
+- [MCUdude/MegaCore](https://github.com/MCUdude/MegaCore)
