@@ -24,6 +24,7 @@ console.log(" ******************************************************************
 // Importa o módulo de arquivos - inclui 'promises'
 
 const fs = require('fs').promises;
+const path = require('path');
 
 // ------------------------------------------------------------------------------------------------------------------------- //
 // Variáveis globais
@@ -44,7 +45,7 @@ function inputFileName()
 	readline.question(" -> Digite o nome do arquivo: ", (answer) => 
 	{
 		// Atualiza o nome do arquivo
-		myFile = answer + ".txt"; 
+		myFile = path.basename(answer).replace(/[<>:"/\\|?*]/g, "_") + ".txt"; 
 		// Fecha a entrada de dados
 	    readline.close();
 	    // Linha de separação
@@ -180,10 +181,10 @@ function formatData(auxData)
 	let auxSlipValues = auxData.split("|");
 
 	// Verifica se o dado está vindo corretamente
-	let testData = auxSlipValues.find(element => element === NaN);
+	let validData = auxSlipValues.length >= 7 && auxSlipValues.every(element => element !== undefined && element !== "");
 
 	// Se o dado for "undefined", quer dizer que veio corretamente
-	if(testData === undefined)
+	if(validData)
 	{
 		// Altera de P para SETPOINT
 		if(auxSlipValues[1] === "P")
@@ -211,7 +212,7 @@ async function storeLog(auxMyFile, dataSend)
 	try
 	{
 		// Salva o dado no arquivo
-		await fs.appendFile(("FileLogs/" + auxMyFile), (dataSend + "\r\n"), { enconding:'utf-8', flag: 'a+' })	
+		await fs.appendFile(path.join("FileLogs", auxMyFile), (dataSend + "\r\n"), { encoding:'utf-8', flag: 'a+' })	
 	}
 	catch(err)
 	{

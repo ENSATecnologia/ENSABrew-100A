@@ -46,8 +46,16 @@ void serialReceiver(void )
       _recvInProgress = true;
       disableInterrupts(); // Disable interrupts
     }
-    if (_recvInProgress)
+    if (_recvInProgress && idx < (sizeof(receivedSerial) - 1))
       receivedSerial[idx++] = dataChar;
+    else if (_recvInProgress)
+    {
+      idx = 0;
+      _recvInProgress = false;
+      memset(receivedSerial, 0, sizeof(receivedSerial));
+      enableInterrupts(); // Enable interrupts
+      return;
+    }
     if (dataChar == endMarker) 
     {
       receivedSerial[idx] = '\0'; // Terminate the "String"
