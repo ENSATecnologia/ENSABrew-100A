@@ -1,36 +1,79 @@
 # ENSABrew-100A
 
-<!-- ENSA-AUDIT-README:START -->
+## 🇧🇷 PT-BR
+
+Projeto ENSA Tecnologia para controle de brassagem/produção, com firmware ATMEL/Arduino, protocolo serial e logger Node.js.
+
+### Visão Geral
+
+O repositório reúne firmware, bibliotecas, protocolo, projeto mecânico, PCB e logger operacional para o equipamento ENSABrew-100A.
+
+### Funcionalidades
+
+- Firmware embarcado para controle de processo.
+- Comunicação serial por protocolo próprio.
+- Logger Node.js para registros operacionais.
+- Documentação de fluxo e protocolo.
+- Materiais de hardware, mecânica e PCB.
+
+### Estrutura
+
+| Caminho | Descrição |
+| --- | --- |
+| `ENSABrewFirmware/` | Firmware ativo |
+| `ENSABrewLibraries/` | Bibliotecas de apoio |
+| `LoggerBuffaloBrew/` | Logger operacional Node.js |
+| `ENSABrewPCB/` | Arquivos de PCB |
+| `ENSABrewMechanicalProject/` | Projeto mecânico |
+| `Protocol/` e `ENSABrewProtocol/` | Documentação de protocolo |
+
+### Pontos de Atenção
+
+- Refatorar recepção serial para máquina de estados não bloqueante.
+- Evitar `DynamicJsonDocument` e uso extensivo de `String` em AVR.
+- Revisar senhas hardcoded antes de produção.
+- Documentar tamanho máximo de pacote serial.
+
+### Licença
+
+Consulte `LICENSE`.
 
 ---
 
-## 🔍 Visao Geral Tecnica
+## 🇺🇸 English
 
-Projeto com firmware ATMEL/Arduino para controle de brassagem/producao e logger Node.js para registros operacionais.
+ENSA Tecnologia project for brewing/production control, with ATMEL/Arduino firmware, serial protocol and Node.js logger.
 
-## 🛠 Status da Auditoria
+### Overview
 
-- ✅ Firmware e logger analisados.
-- ✅ Correcoes seguras aplicadas no parser serial e no logger.
-- ⚠️ Ainda exige revisao arquitetural da recepcao serial com interrupcoes desabilitadas.
+This repository gathers firmware, libraries, protocol, mechanical project, PCB and operational logger for the ENSABrew-100A equipment.
 
-## ✅ Correcoes Aplicadas
+### Features
 
-- Adicionado descarte defensivo para pacote serial maior que o buffer em `ENSABrewSerial.ino`.
-- Corrigida validacao de campos no `loggerBrew.js`.
-- Corrigido typo `enconding` para `encoding`.
-- Sanitizado nome de arquivo informado pelo usuario no logger.
+- Embedded firmware for process control.
+- Custom serial protocol communication.
+- Node.js logger for operational records.
+- Flow and protocol documentation.
+- Hardware, mechanical and PCB materials.
 
-## ⚠️ Pontos de Atencao
+### Structure
 
-- Evitar `DynamicJsonDocument` e uso extensivo de `String` em AVR quando possivel.
-- Rever senhas curtas e hardcoded (`SENHA_MASTER`, `SENHA_USER`).
-- Documentar protocolo serial e tamanho maximo de pacote.
+| Path | Description |
+| --- | --- |
+| `ENSABrewFirmware/` | Active firmware |
+| `ENSABrewLibraries/` | Support libraries |
+| `LoggerBuffaloBrew/` | Operational Node.js logger |
+| `ENSABrewPCB/` | PCB files |
+| `ENSABrewMechanicalProject/` | Mechanical project |
+| `Protocol/` and `ENSABrewProtocol/` | Protocol documentation |
 
-## 🚀 Proximos Passos
+### Attention Points
 
-1. Refatorar recepcao serial para maquina de estados nao bloqueante.
-2. Separar variantes antigas, bibliotecas externas e firmware ativo.
-3. Adicionar `package.json` para o logger Node.
+- Refactor serial reception into a non-blocking state machine.
+- Avoid `DynamicJsonDocument` and extensive `String` usage on AVR.
+- Review hardcoded passwords before production.
+- Document maximum serial packet size.
 
-<!-- ENSA-AUDIT-README:END -->
+### License
+
+See `LICENSE`.
