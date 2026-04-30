@@ -36,9 +36,6 @@
 #define DEBUG_SERIAL             1        // 1 = Habilita o DEBUG pela Serial0
 #define DEBUG_SOCKET             0        // 1 = Habilita o DEBUG pelo Socket (ETH0)
 
-#define SENHA_MASTER              F("4E") // Definição da senha de configuração - MASTER
-#define SENHA_USER                F("1A") // Definição da senha de configuração - USER
-
 #define RESET                    0        // definição de RESET
 
 // ------------------------------------------------------------------------------------------
@@ -209,8 +206,6 @@
 #define _MANUAL_ADJUSTMENT  	 1		  // Sinaliza ajuste manual do fator de calibração
 
 #define ARDUINOJSON_ENABLE_PROGMEM    1   // Enable "ARDUINOJSON_ENABLE_PROGMEM"
-
-#define DEFAULT_ID_MODULE		 F("1020ABC01") // Número de série/id padrão
 
 #define _CONFIG_MENU			 0 // Sinaliza configuração por MENU
 #define _CONFIG_SOCKET			 1 // Sinaliza configuração por SOCKET
@@ -680,6 +675,9 @@ struct ConfigGeral
   float kiPID = 5.0;
   float kdPID = 1.0;
 
+  char authKey[9];
+  char senhaMaster[5];
+  char senhaUser[5];
   char idModule[10];
 };
 

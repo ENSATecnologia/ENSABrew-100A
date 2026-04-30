@@ -219,11 +219,15 @@ void remoteSetTempoEnvioBrassagem(JsonObject dataObject)
 
 void setIdModule(JsonObject dataObject) 
 {
-  String auxKey = dataObject[F("key")].as<String>();
-  if(auxKey == F("excENSA")) 
+  const char* auxKey = dataObject[F("key")];
+  if(auxKey != NULL && strcmp(auxKey, configGeral.authKey) == 0) 
   {
-    String auxIdModule = dataObject[F("newId")].as<String>();
-    auxIdModule.toCharArray(configGeral.idModule, 10);
+    const char* auxIdModule = dataObject[F("newId")];
+    if(auxIdModule != NULL)
+    {
+      strncpy(configGeral.idModule, auxIdModule, sizeof(configGeral.idModule) - 1);
+      configGeral.idModule[sizeof(configGeral.idModule) - 1] = '\0';
+    }
     // Armazena a configuração
     salvaConfigGeral(_CONFIG_SOCKET);
     passoMaquina = mMENU;

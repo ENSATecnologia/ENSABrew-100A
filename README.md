@@ -19,24 +19,27 @@ O repositorio reune firmware, bibliotecas, protocolo, projeto mecanico, PCB e lo
 | `ENSABrewMechanicalProject/` | Projeto mecanico |
 | `Protocol/` e `ENSABrewProtocol/` | Documentacao de protocolo |
 
-### Resultado da auditoria
+### Diretriz de manutencao
 
-Auditoria estatica do diretorio, com foco no firmware ativo em `ENSABrewFirmware/ATMEL/ENSABrew/` e na variante `ENSABrewBuffaloBeer/`:
+`ENSABrew/` e a base ativa de manutencao. `ENSABrewBuffaloBeer/` deve ser tratada como arvore legada/historica, mantida apenas para referencia e comparacao. Novas mudancas devem entrar em `ENSABrew/`, salvo necessidade explicita de suporte a essa variante antiga.
 
-- A recepcao serial foi corrigida para nao deixar interrupcoes desligadas ao final de um ciclo incompleto de leitura. A protecao de buffer tambem ficou consistente nas duas arvores de firmware.
-- O uso de `DynamicJsonDocument` e `String` em AVR continua presente em pontos criticos de serial e comunicacao APP.
-- Senhas e identificadores sensiveis continuam hardcoded, inclusive `SENHA_MASTER`, `SENHA_USER` e o `DEFAULT_ID_MODULE`.
-- O tamanho maximo do pacote serial existe no codigo (`DATA_UTIL_SERIAL = 512`), mas nao esta descrito de forma clara no protocolo.
-- Existem duas arvores de firmware com divergencias funcionais. O README precisa deixar claro que `ENSABrew/` e a base principal e `ENSABrewBuffaloBeer/` e uma variante antiga/diferenciada.
+### Estado atual
+
+- A recepcao serial foi corrigida para nao deixar interrupcoes desligadas ao final de um ciclo incompleto de leitura.
+- O caminho principal de JSON foi reduzido para `StaticJsonDocument` em vez de `DynamicJsonDocument` nos fluxos mais importantes de serial, APP e resposta remota.
+- As chaves de autenticacao e identificadores sensiveis foram movidos para configuracao persistida em EEPROM, com valores de bootstrap definidos no firmware.
+- O protocolo serial agora documenta o tamanho maximo do pacote (`DATA_UTIL_SERIAL = 512`) e os campos principais esperados.
+- O logger Node.js passou a lidar com framings por linha e limite de buffer, reduzindo erros de leitura parcial.
+- As rotinas de display e relogio reduziram copias desnecessarias de `String` nos caminhos mais usados.
+- A arvore `ENSABrewBuffaloBeer/` segue documentada como legado, para evitar manutencao dupla.
 
 ### Ajustes adicionais que ainda valem
 
-- Centralizar as constantes do protocolo e documentar formato, tamanho e validacao do pacote em um unico lugar.
-- Trocar credenciais fixas por configuracao persistida, provisionamento ou leitura segura de EEPROM.
-- Reduzir o uso de `String` no firmware principal, especialmente nas rotinas de serial, exibicao e montagem de JSON.
-- Tratar explicitamente pacote incompleto, pacote excedido e erro de autenticao, sem depender de comportamento implcito do loop.
+- Reduzir o uso de `String` nas rotinas de receita e nas comparacoes de nome ainda espalhadas pelo firmware.
+- Reduzir o uso restante de `String` nas telas de configuracao, edicao de receita e mensagens dinamicas do display.
+- Tratar explicitamente pacote incompleto, pacote excedido e erro de autenticacao, sem depender de comportamento implcito do loop.
 - Separar melhor codigo do projeto e dependencias vendorizadas, para facilitar manutencao e auditoria.
-- Atualizar a documentacao com a arvore realmente ativa, os forks historicos e o caminho recomendado para manutencao.
+- Manter o contrato do protocolo centralizado no arquivo `Protocol/protocolo ENSABrew.md`.
 
 ### Observacao
 
@@ -67,24 +70,27 @@ This repository gathers firmware, libraries, protocol, mechanical project, PCB a
 | `ENSABrewMechanicalProject/` | Mechanical project |
 | `Protocol/` and `ENSABrewProtocol/` | Protocol documentation |
 
-### Audit result
+### Maintenance direction
 
-Static audit of the directory, focused on the active firmware in `ENSABrewFirmware/ATMEL/ENSABrew/` and the `ENSABrewBuffaloBeer/` variant:
+`ENSABrew/` is the active maintenance base. `ENSABrewBuffaloBeer/` should be treated as a legacy/historical tree, kept only for reference and comparison. New changes should land in `ENSABrew/` unless there is an explicit need to support that older variant.
 
-- Serial reception has been corrected so it no longer leaves interrupts disabled after an incomplete read cycle. Buffer protection is now consistent across both firmware trees.
-- `DynamicJsonDocument` and `String` usage is still present in critical AVR serial and APP communication paths.
-- Sensitive values are still hardcoded, including `SENHA_MASTER`, `SENHA_USER` and `DEFAULT_ID_MODULE`.
-- The maximum serial packet size exists in code (`DATA_UTIL_SERIAL = 512`), but it is not clearly documented in the protocol.
-- There are two firmware trees with functional divergence. The README should make it explicit that `ENSABrew/` is the main base and `ENSABrewBuffaloBeer/` is an older/different variant.
+### Current state
+
+- Serial reception has been corrected so it no longer leaves interrupts disabled after an incomplete read cycle.
+- The main JSON path has been reduced to `StaticJsonDocument` instead of `DynamicJsonDocument` in the main serial, APP and remote-reply flows.
+- Authentication keys and sensitive identifiers were moved into persisted EEPROM-backed configuration, with firmware bootstrap defaults.
+- The serial protocol now documents the maximum packet size (`DATA_UTIL_SERIAL = 512`) and the main expected fields.
+- The Node.js logger now handles line-based framing and a bounded buffer to reduce partial-read errors.
+- Display and clock routines now avoid unnecessary `String` copies in the most-used paths.
+- The `ENSABrewBuffaloBeer/` tree remains documented as legacy to avoid maintaining two active code paths.
 
 ### Additional code improvements worth doing
 
-- Centralize protocol constants and document packet format, size and validation in one place.
-- Replace fixed credentials with persisted configuration, provisioning or secure EEPROM-backed settings.
-- Reduce `String` usage in the main firmware, especially in serial, display and JSON assembly paths.
+- Reduce `String` usage in recipe routines and in the remaining name comparison helpers in the firmware.
+- Reduce the remaining `String` usage in configuration screens, recipe editing and dynamic display messages.
 - Handle incomplete packets, oversized packets and authentication failures explicitly instead of relying on loop behavior.
 - Separate project code from vendored dependencies more clearly to simplify maintenance and auditability.
-- Update the docs with the real active tree, historical forks and the recommended maintenance path.
+- Keep the protocol contract centralized in `Protocol/protocolo ENSABrew.md`.
 
 ### Note
 

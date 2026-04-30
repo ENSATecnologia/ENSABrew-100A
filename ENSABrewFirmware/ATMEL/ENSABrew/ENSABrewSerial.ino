@@ -81,8 +81,7 @@ void analyzesDataSerial(void )
   { 
     // https://arduinojson.org/v5/faq/how-to-reuse-a-jsonbuffer/
     _newDataSerial = false;
-    const size_t bufferSize = JSON_OBJECT_SIZE(7) + 90;
-    DynamicJsonDocument jsonReceivedBuffer(bufferSize);
+    StaticJsonDocument<JSON_OBJECT_SIZE(7) + 128> jsonReceivedBuffer;
     DeserializationError jsonError = deserializeJson(jsonReceivedBuffer, receivedSerial);
     JsonObject dataSerialJson = jsonReceivedBuffer.as<JsonObject>();
  
@@ -127,9 +126,10 @@ void analyzesDataSerial(void )
         if(typeCommand != 0xFF && command <= 0xFF) 
         {  
           // Garante que o getId seja executado
-          String auxIdModule = dataSerialJson[F("id")].as<String>();
+          const char* auxIdModule = dataSerialJson[F("id")];
           char idModuleChar[10];
-          auxIdModule.toCharArray(idModuleChar, 10);
+          strncpy(idModuleChar, auxIdModule != NULL ? auxIdModule : "", sizeof(idModuleChar) - 1);
+          idModuleChar[sizeof(idModuleChar) - 1] = '\0';
             
           // Verifica o número de série
           if((strcmp(idModuleChar, configGeral.idModule) != 0)) 
@@ -167,6 +167,5 @@ void analyzesDataSerial(void )
     }
     memset(receivedSerial, 0, sizeof(receivedSerial));
     dataSerialJson.clear();
-    jsonReceivedBuffer.clear();
   }
 }

@@ -105,7 +105,7 @@ void controlKeepAlive(uint8_t auxTypeAction)
 // Data  : 22/01/2020	10:00
 //WWWWWWWWWW*********************************************************************************
 
-void sendDataAPP(uint8_t *auxInfoData, String *auxSendData) 
+void sendDataAPP(uint8_t *auxInfoData, const String *auxSendData)
 {
 	// ------------------------------------------------------- //
 	// Formato e significado dos vetores
@@ -117,8 +117,7 @@ void sendDataAPP(uint8_t *auxInfoData, String *auxSendData)
 	// ------------------------------------------------------- //
 	// Definição do tamanho do buffer para envio
 
-    const size_t bufferSize = JSON_OBJECT_SIZE(auxInfoData[2]);
-    DynamicJsonDocument jsonSendData(bufferSize);
+    StaticJsonDocument<512> jsonSendData;
     JsonObject bufferSendDataAPP = jsonSendData.to<JsonObject>();
 
     // ------------------------------------------------------- // 
@@ -127,7 +126,7 @@ void sendDataAPP(uint8_t *auxInfoData, String *auxSendData)
     bufferSendDataAPP[F("header")] = F("4E");
     bufferSendDataAPP[F("product")] = F("0002");
     bufferSendDataAPP[F("type")] = F("D002");
-    bufferSendDataAPP[F("id")] = String(configGeral.idModule);
+    bufferSendDataAPP[F("id")] = configGeral.idModule;
 
     // ------------------------------------------------------- // 
     // Definição do tipo do cabeçalho
