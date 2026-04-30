@@ -23,7 +23,7 @@ O repositorio reune firmware, bibliotecas, protocolo, projeto mecanico, PCB e lo
 
 Auditoria estatica do diretorio, com foco no firmware ativo em `ENSABrewFirmware/ATMEL/ENSABrew/` e na variante `ENSABrewBuffaloBeer/`:
 
-- A recepcao serial ainda precisa de ajuste. O firmware ativo limita o buffer, mas a rotina pode sair do loop com interrupcoes ainda desabilitadas se o pacote terminar sem `}` no mesmo ciclo de leitura.
+- A recepcao serial foi corrigida para nao deixar interrupcoes desligadas ao final de um ciclo incompleto de leitura. A protecao de buffer tambem ficou consistente nas duas arvores de firmware.
 - O uso de `DynamicJsonDocument` e `String` em AVR continua presente em pontos criticos de serial e comunicacao APP.
 - Senhas e identificadores sensiveis continuam hardcoded, inclusive `SENHA_MASTER`, `SENHA_USER` e o `DEFAULT_ID_MODULE`.
 - O tamanho maximo do pacote serial existe no codigo (`DATA_UTIL_SERIAL = 512`), mas nao esta descrito de forma clara no protocolo.
@@ -71,7 +71,7 @@ This repository gathers firmware, libraries, protocol, mechanical project, PCB a
 
 Static audit of the directory, focused on the active firmware in `ENSABrewFirmware/ATMEL/ENSABrew/` and the `ENSABrewBuffaloBeer/` variant:
 
-- Serial reception still needs work. The active firmware limits the buffer, but the routine can exit with interrupts still disabled if the packet ends without `}` in the same read cycle.
+- Serial reception has been corrected so it no longer leaves interrupts disabled after an incomplete read cycle. Buffer protection is now consistent across both firmware trees.
 - `DynamicJsonDocument` and `String` usage is still present in critical AVR serial and APP communication paths.
 - Sensitive values are still hardcoded, including `SENHA_MASTER`, `SENHA_USER` and `DEFAULT_ID_MODULE`.
 - The maximum serial packet size exists in code (`DATA_UTIL_SERIAL = 512`), but it is not clearly documented in the protocol.

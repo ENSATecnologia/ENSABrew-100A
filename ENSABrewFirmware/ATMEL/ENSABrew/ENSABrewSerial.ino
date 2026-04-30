@@ -65,6 +65,9 @@ void serialReceiver(void )
       enableInterrupts(); // Enable interrupts
     }
   }
+
+  if (_recvInProgress)
+    enableInterrupts();
 }
 
 //WWWWWWWWWW*********************************************************************************
