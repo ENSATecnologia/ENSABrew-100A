@@ -1,79 +1,35 @@
 # ENSABrew-100A
 
-## 🇧🇷 PT-BR
+Projeto ENSA Tecnologia para controle de brassagem e producao, com firmware ATMEL/Arduino, protocolo serial e logger Node.js.
 
-Projeto ENSA Tecnologia para controle de brassagem/produção, com firmware ATMEL/Arduino, protocolo serial e logger Node.js.
+## Visao geral
 
-### Visão Geral
+O repositorio reune firmware, bibliotecas, protocolo, projeto mecanico, PCB e logger operacional para o equipamento ENSABrew-100A.
 
-O repositório reúne firmware, bibliotecas, protocolo, projeto mecânico, PCB e logger operacional para o equipamento ENSABrew-100A.
+## Estrutura
 
-### Funcionalidades
-
-- Firmware embarcado para controle de processo.
-- Comunicação serial por protocolo próprio.
-- Logger Node.js para registros operacionais.
-- Documentação de fluxo e protocolo.
-- Materiais de hardware, mecânica e PCB.
-
-### Estrutura
-
-| Caminho | Descrição |
+| Caminho | Descricao |
 | --- | --- |
-| `ENSABrewFirmware/` | Firmware ativo |
+| `ENSABrewFirmware/` | Firmware ativo e variantes historicas |
 | `ENSABrewLibraries/` | Bibliotecas de apoio |
 | `LoggerBuffaloBrew/` | Logger operacional Node.js |
 | `ENSABrewPCB/` | Arquivos de PCB |
-| `ENSABrewMechanicalProject/` | Projeto mecânico |
-| `Protocol/` e `ENSABrewProtocol/` | Documentação de protocolo |
+| `ENSABrewMechanicalProject/` | Projeto mecanico |
+| `Protocol/` e `ENSABrewProtocol/` | Documentacao de protocolo |
 
-### Pontos de Atenção
+## Pontos de atencao
 
-- Refatorar recepção serial para máquina de estados não bloqueante.
-- Evitar `DynamicJsonDocument` e uso extensivo de `String` em AVR.
-- Revisar senhas hardcoded antes de produção.
-- Documentar tamanho máximo de pacote serial.
+Status verificado no codigo, considerando o firmware ativo em `ENSABrewFirmware/ATMEL/ENSABrew/`:
 
-### Licença
+- Recepcao serial em maquina de estados nao bloqueante: parcialmente resolvida. Existe controle por buffer e fim de pacote em `ENSABrewSerial.ino`, mas ainda ha uso de interrupcoes desabilitadas durante a leitura e a variante `ENSABrewBuffaloBeer` continua sem a mesma protecao de limite.
+- `DynamicJsonDocument` e uso extensivo de `String` em AVR: nao resolvido. O firmware ativo ainda usa `DynamicJsonDocument` em pontos criticos de serial, JSON e comunicacao APP.
+- Senhas hardcoded: nao resolvido. `SENHA_MASTER` e `SENHA_USER` continuam definidos no codigo, e o protocolo documenta uma chave fixa de autenticacao.
+- Tamanho maximo de pacote serial: parcialmente resolvido. O codigo define `DATA_UTIL_SERIAL = 512`, mas esse limite ainda nao esta documentado de forma explicita no protocolo.
+
+## Observacao
+
+As conclusoes acima sao de leitura estatica do codigo, nao de teste em hardware.
+
+## Licenca
 
 Consulte `LICENSE`.
-
----
-
-## 🇺🇸 English
-
-ENSA Tecnologia project for brewing/production control, with ATMEL/Arduino firmware, serial protocol and Node.js logger.
-
-### Overview
-
-This repository gathers firmware, libraries, protocol, mechanical project, PCB and operational logger for the ENSABrew-100A equipment.
-
-### Features
-
-- Embedded firmware for process control.
-- Custom serial protocol communication.
-- Node.js logger for operational records.
-- Flow and protocol documentation.
-- Hardware, mechanical and PCB materials.
-
-### Structure
-
-| Path | Description |
-| --- | --- |
-| `ENSABrewFirmware/` | Active firmware |
-| `ENSABrewLibraries/` | Support libraries |
-| `LoggerBuffaloBrew/` | Operational Node.js logger |
-| `ENSABrewPCB/` | PCB files |
-| `ENSABrewMechanicalProject/` | Mechanical project |
-| `Protocol/` and `ENSABrewProtocol/` | Protocol documentation |
-
-### Attention Points
-
-- Refactor serial reception into a non-blocking state machine.
-- Avoid `DynamicJsonDocument` and extensive `String` usage on AVR.
-- Review hardcoded passwords before production.
-- Document maximum serial packet size.
-
-### License
-
-See `LICENSE`.
