@@ -30,11 +30,13 @@ O repositorio reune firmware, bibliotecas, protocolo, projeto mecanico, PCB e lo
 - As chaves de autenticacao e identificadores sensiveis foram movidos para configuracao persistida em EEPROM, com valores de bootstrap definidos no firmware.
 - O protocolo serial agora documenta o tamanho maximo do pacote (`DATA_UTIL_SERIAL = 512`) e os campos principais esperados.
 - O logger Node.js passou a lidar com framings por linha e limite de buffer, reduzindo erros de leitura parcial.
+- As rotinas de display e relogio reduziram copias desnecessarias de `String` nos caminhos mais usados.
 - A arvore `ENSABrewBuffaloBeer/` segue documentada como legado, para evitar manutencao dupla.
 
 ### Ajustes adicionais que ainda valem
 
 - Reduzir o uso de `String` nas rotinas de receita e nas comparacoes de nome ainda espalhadas pelo firmware.
+- Reduzir o uso restante de `String` nas telas de configuracao, edicao de receita e mensagens dinamicas do display.
 - Tratar explicitamente pacote incompleto, pacote excedido e erro de autenticacao, sem depender de comportamento implcito do loop.
 - Separar melhor codigo do projeto e dependencias vendorizadas, para facilitar manutencao e auditoria.
 - Manter o contrato do protocolo centralizado no arquivo `Protocol/protocolo ENSABrew.md`.
@@ -79,11 +81,13 @@ This repository gathers firmware, libraries, protocol, mechanical project, PCB a
 - Authentication keys and sensitive identifiers were moved into persisted EEPROM-backed configuration, with firmware bootstrap defaults.
 - The serial protocol now documents the maximum packet size (`DATA_UTIL_SERIAL = 512`) and the main expected fields.
 - The Node.js logger now handles line-based framing and a bounded buffer to reduce partial-read errors.
+- Display and clock routines now avoid unnecessary `String` copies in the most-used paths.
 - The `ENSABrewBuffaloBeer/` tree remains documented as legacy to avoid maintaining two active code paths.
 
 ### Additional code improvements worth doing
 
 - Reduce `String` usage in recipe routines and in the remaining name comparison helpers in the firmware.
+- Reduce the remaining `String` usage in configuration screens, recipe editing and dynamic display messages.
 - Handle incomplete packets, oversized packets and authentication failures explicitly instead of relying on loop behavior.
 - Separate project code from vendored dependencies more clearly to simplify maintenance and auditability.
 - Keep the protocol contract centralized in `Protocol/protocolo ENSABrew.md`.

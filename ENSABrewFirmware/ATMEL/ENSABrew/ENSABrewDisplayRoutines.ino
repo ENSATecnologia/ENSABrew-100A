@@ -86,12 +86,33 @@ void startDisplay(void )
 	// Data  : 
 	//WWWWWWWWWW*********************************************************************************
 
-	void lcdPrint(int row, int col, String text) {
+	void lcdPrint(int row, int col, const String& text) {
 	  row = row - 1;
 	  col = col - 1;
 	  for (register int n = 0; n < text.length(); n++)
 	    if (col < 16)
 	      telaBuffer[row][col++] = text[n];
+	}
+
+	void lcdPrint(int row, int col, const char* text) {
+	  row = row - 1;
+	  col = col - 1;
+	  if(text == NULL)
+	    return;
+	  for (register int n = 0; text[n] != '\0'; n++)
+	    if (col < 16)
+	      telaBuffer[row][col++] = text[n];
+	}
+
+	void lcdPrint(int row, int col, const __FlashStringHelper* text) {
+	  row = row - 1;
+	  col = col - 1;
+	  if(text == NULL)
+	    return;
+	  PGM_P textProgmem = reinterpret_cast<PGM_P>(text);
+	  for (register int n = 0; pgm_read_byte(textProgmem + n) != '\0'; n++)
+	    if (col < 16)
+	      telaBuffer[row][col++] = pgm_read_byte(textProgmem + n);
 	}
 
 	//WWWWWWWWWW*********************************************************************************
@@ -268,7 +289,7 @@ void printMenuGlobal(void )
 			#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 				oled.setCursor(0, linha);
-        		oled.print(st);
+		oled.print(st);
 
 			#endif
 		}
@@ -292,7 +313,7 @@ void printMenuGlobal(void )
 				#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 		    		oled.setCursor(0, linha);
-          			oled.print(st);
+			oled.print(st);
 				
 				#endif
 		  	}
@@ -306,7 +327,7 @@ void printMenuGlobal(void )
 				#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 		    		oled.setCursor(0, linha);
-          			oled.print(buffer);
+			oled.print(buffer);
 
 				#endif
 		    }
@@ -357,7 +378,7 @@ void printMenuGlobal(void )
 // Data  : 18/11/2019 10:25
 //WWWWWWWWWW*********************************************************************************
 
-void centralWritingScreen(String auxString1, String auxString2)
+void centralWritingScreen(const String& auxString1, const String& auxString2)
 {
 	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
 
@@ -371,7 +392,26 @@ void centralWritingScreen(String auxString1, String auxString2)
 		oled.clear();
 	    oled.setCursor(0, LINHA_2);
 	    oled.println(auxString1);
-    	oled.println(auxString2);
+	oled.println(auxString2);
+
+	#endif
+}
+
+void centralWritingScreen(const __FlashStringHelper* auxString1, const __FlashStringHelper* auxString2)
+{
+	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+
+		lcdClear();
+		lcdPrint(1, 1, auxString1);
+		lcdPrint(2, 1, auxString2);
+		lcdWrite();
+
+	#elif(DISPLAY_TYPE == DISPLAY_OLED)
+
+		oled.clear();
+	    oled.setCursor(0, LINHA_2);
+	    oled.println(auxString1);
+	oled.println(auxString2);
 
 	#endif
 }
@@ -381,7 +421,7 @@ void centralWritingScreen(String auxString1, String auxString2)
 // Data  : 18/11/2019 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void printDisplay(String prMsgLinha1, String prMsgLinha2, unsigned long prTempoMsg) 
+void printDisplay(const String& prMsgLinha1, const String& prMsgLinha2, unsigned long prTempoMsg)
 {
 	#if(DISPLAY_TYPE == DISPLAY_OLED)
 
@@ -407,8 +447,8 @@ void printDisplay(String prMsgLinha1, String prMsgLinha2, unsigned long prTempoM
 			#elif(DISPLAY_TYPE == DISPLAY_OLED)
 			
 				oled.setCursor(0, LINHA_2);
-			  	oled.println(prMsgLinha1);
-			  	oled.println(prMsgLinha2);
+					 oled.println(prMsgLinha1);
+					 oled.println(prMsgLinha2);
 
 			#endif
 		  
@@ -433,8 +473,65 @@ void printDisplay(String prMsgLinha1, String prMsgLinha2, unsigned long prTempoM
 		#elif(DISPLAY_TYPE == DISPLAY_OLED)
 			
 			oled.setCursor(0, LINHA_2);
-		  	oled.println(prMsgLinha1);
-		  	oled.println(prMsgLinha2);
+					 oled.println(prMsgLinha1);
+					 oled.println(prMsgLinha2);
+
+		#endif
+	}
+}
+
+void printDisplay(const __FlashStringHelper* prMsgLinha1, const __FlashStringHelper* prMsgLinha2, unsigned long prTempoMsg)
+{
+	#if(DISPLAY_TYPE == DISPLAY_OLED)
+
+		oled.clear();
+		passoAnterior = passoMaquina;
+
+	#endif
+
+	if(prTempoMsg > 1)
+	{
+		wdtTimesDisplay = prTempoMsg;
+		do
+		{
+			#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+
+				lcdClear();
+				lcdPrint(1, 1, prMsgLinha1);
+				lcdPrint(2, 1, prMsgLinha2);
+				lcdWrite();
+
+			#elif(DISPLAY_TYPE == DISPLAY_OLED)
+
+				oled.setCursor(0, LINHA_2);
+					 oled.println(prMsgLinha1);
+					 oled.println(prMsgLinha2);
+
+			#endif
+
+		} while (wdtTimesDisplay > 0);
+
+		#if(DISPLAY_TYPE == DISPLAY_OLED)
+
+			oled.clear();
+			_refreshDisplay = true;
+
+		#endif
+	}
+	else
+	{
+		#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+
+			lcdClear();
+			lcdPrint(1, 1, prMsgLinha1);
+			lcdPrint(2, 1, prMsgLinha2);
+			lcdWrite();
+
+		#elif(DISPLAY_TYPE == DISPLAY_OLED)
+
+			oled.setCursor(0, LINHA_2);
+					 oled.println(prMsgLinha1);
+					 oled.println(prMsgLinha2);
 
 		#endif
 	}
@@ -448,7 +545,7 @@ void printDisplay(String prMsgLinha1, String prMsgLinha2, unsigned long prTempoM
 void printVersao(void ) 
 {
   if (!_flag3000ms) 
-  	centralWritingScreen(SISTEMA, VERSAO);
+	centralWritingScreen(SISTEMA, VERSAO);
   else 
   { passoMaquina = mSTANDBY; return; }
 }
@@ -634,9 +731,9 @@ void printEntradaString(void )
 	#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 		if(_rewriteDisplay || _refreshDisplay)
-    	{
-    		_refreshDisplay = false;
-      		_rewriteDisplay = false;
+	{
+		_refreshDisplay = false;
+		_rewriteDisplay = false;
 			oled.clear();
 			oled.setCursor(0, LINHA_1);
 			oled.println(auxStringDisplay);
@@ -1214,9 +1311,9 @@ void printEntradaValorGeral(void )
 	#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 		if(_rewriteDisplay || _refreshDisplay)
-    	{
-    		_refreshDisplay = false;
-      		_rewriteDisplay = false;
+	{
+		_refreshDisplay = false;
+		_rewriteDisplay = false;
 			oled.clear();
 		    oled.setCursor(0, LINHA_1);
 		    oled.println(auxStringDisplay);
@@ -1330,9 +1427,9 @@ void printSimNao(void )
 	#elif(DISPLAY_TYPE == DISPLAY_OLED)
 
 		if(_rewriteDisplay || _refreshDisplay)
-    	{
-    		_refreshDisplay = false;
-      		_rewriteDisplay = false;
+	{
+		_refreshDisplay = false;
+		_rewriteDisplay = false;
 
 			oled.clear();
 		    oled.setCursor(0, LINHA_1);
@@ -1369,7 +1466,7 @@ void printMenuMalte(void )
 void printMenuFervura(void )
 {
 	// Carrega as mensagens
-  	String auxString[2];
+	String auxString[2];
 	auxString[0] = F(" Start FERVURA? ");
 	auxString[1] = F("  Pressione OK  ");
 
@@ -1405,7 +1502,7 @@ void printAdicao(void )
 void printMenuWhirlpool(void )
 {
 	// Carrega as mensagens
-  	String auxString[2];
+	String auxString[2];
 	auxString[0] = F("Start WHIRLPOOL?");
 	auxString[1] = F("  Pressione OK  ");
 
@@ -1420,8 +1517,8 @@ void printMenuWhirlpool(void )
 
 void printMenuDescanso(void )
 {
-  	// Carrega as mensagens
-  	String auxString[2];
+	// Carrega as mensagens
+	String auxString[2];
 	auxString[0] = F("Start DESCANSO ?");
 	auxString[1] = F("  Pressione OK  ");
 	
@@ -1434,13 +1531,33 @@ void printMenuDescanso(void )
 // Data  : 18/11/2019 11:20
 //WWWWWWWWWW*********************************************************************************
 
-void printBrassagem(String auxString1, String auxString2)
+void printBrassagem(const String& auxString1, const String& auxString2)
 {
 	// Caso for escrita do display OLED
 	#if(DISPLAY_TYPE == DISPLAY_OLED)
 
 		oledRestart();
   
+		if(_refreshDisplay)
+		{
+			resetDisplay();
+			centralWritingScreen(auxString1, auxString2);
+			return;
+		}
+
+	#endif
+
+	// Caso for escrita do display LCD
+	centralWritingScreen(auxString1, auxString2);
+}
+
+void printBrassagem(const __FlashStringHelper* auxString1, const __FlashStringHelper* auxString2)
+{
+	// Caso for escrita do display OLED
+	#if(DISPLAY_TYPE == DISPLAY_OLED)
+
+		oledRestart();
+
 		if(_refreshDisplay)
 		{
 			resetDisplay();
@@ -1462,7 +1579,7 @@ void printBrassagem(String auxString1, String auxString2)
 void printConfigStatusPID(void )
 {	
 	// Carrega as mensagens
-  	String auxString[2];
+	String auxString[2];
 	auxString[0] = F("   Status PID   ");
 
 	if(auxTempStatusPID)
@@ -1470,7 +1587,7 @@ void printConfigStatusPID(void )
 	else
 		auxString[1] = F("  DESABILITADO  ");
 	
-   	// Caso for escrita do display LCD
+	// Caso for escrita do display LCD
 	centralWritingScreen(auxString[0], auxString[1]);
 
 }
@@ -1483,9 +1600,9 @@ void printConfigStatusPID(void )
 void printVisualizaReceita(void )
 {
 	// Carrega as mensagens
-  	String auxString[2];
+	String auxString[2];
 
-  	// Verifica o ponto de visualização
+	// Verifica o ponto de visualização
 	switch(auxVisualizaReceita)
 	{
 		case mNOME_RECEITA:
@@ -1644,7 +1761,7 @@ void printVisualizaReceita(void )
 
         case mQT_WHIRLPOOL:
 
-        	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
 		
 				// Alterna as mensagens na tela
 				if (_changeMsg) 
@@ -1662,7 +1779,7 @@ void printVisualizaReceita(void )
 
         case mMINUTO_WHIRLPOOL:
 
-        	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
 		
 				// Alterna as mensagens na tela
 				if (_changeMsg) 
@@ -1680,7 +1797,7 @@ void printVisualizaReceita(void )
 
         case mQT_DESCANSO:
 
-        	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
 		
 				// Alterna as mensagens na tela
 				if (_changeMsg) 
@@ -1698,7 +1815,7 @@ void printVisualizaReceita(void )
 
         case mMINUTO_DESCANSO:
 
-        	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
+	#if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
 		
 				auxString[0] = F(" Tempo DESCANSO ");
 				auxString[1] = String(F("-> ")) + String(prReceita.descanso[ind].tempo) + String(F(" minutos"));

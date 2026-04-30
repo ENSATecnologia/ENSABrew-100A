@@ -22,7 +22,7 @@
 // Data  : 04/04/2017 13:45
 //WWWWWWWWWW*********************************************************************************
 
-void startClock(int prTempoMsg) 
+void startClock(int prTempoMsg)
 {
   byte zero = 0x00;
 
@@ -44,42 +44,40 @@ void startClock(int prTempoMsg)
       Wire.endTransmission();
       Wire.requestFrom(ADDRESS_DS1307, 7);
 
-      String segundos = String(converteparaDecimal(Wire.read()));
-      if (segundos.toInt() < 10)
-        segundos = "0" + segundos;
-      String minutos = String(converteparaDecimal(Wire.read()));
-      if (minutos.toInt() < 10)
-        minutos = "0" + minutos;
-      String horas = String(converteparaDecimal(Wire.read() & 0b111111));
-      if (horas.toInt() < 10)
-        horas = "0" + horas;
+      char segundos[3];
+      char minutos[3];
+      char horas[3];
+      snprintf(segundos, sizeof(segundos), "%02u", converteparaDecimal(Wire.read()));
+      snprintf(minutos, sizeof(minutos), "%02u", converteparaDecimal(Wire.read()));
+      snprintf(horas, sizeof(horas), "%02u", converteparaDecimal(Wire.read() & 0b111111));
       int diadasemana = converteparaDecimal(Wire.read());
-      String diadasemanaString;
-      switch (diadasemana) 
+      const char* diadasemanaString = "";
+      switch (diadasemana)
       {
-        case 1: diadasemanaString = F("Seg"); break;
-        case 2: diadasemanaString = F("Ter"); break;
-        case 3: diadasemanaString = F("Qua"); break;
-        case 4: diadasemanaString = F("Qui"); break;
-        case 5: diadasemanaString = F("Sex"); break;
-        case 6: diadasemanaString = F("Sab"); break;
-        case 7: diadasemanaString = F("Dom"); break;
+        case 1: diadasemanaString = "Seg"; break;
+        case 2: diadasemanaString = "Ter"; break;
+        case 3: diadasemanaString = "Qua"; break;
+        case 4: diadasemanaString = "Qui"; break;
+        case 5: diadasemanaString = "Sex"; break;
+        case 6: diadasemanaString = "Sab"; break;
+        case 7: diadasemanaString = "Dom"; break;
       }
-      String diadomes = String(converteparaDecimal(Wire.read()));
-      if (diadomes.toInt() < 10)
-        diadomes = "0" + diadomes;
-      String mes = String(converteparaDecimal(Wire.read()));
-      if (mes.toInt() < 10)
-        mes = "0" + mes;
-      String ano = String(converteparaDecimal(Wire.read()));
-      if (ano.toInt() < 10)
-        ano = "0" + ano;
-      
+      char diadomes[3];
+      char mes[3];
+      char ano[3];
+      snprintf(diadomes, sizeof(diadomes), "%02u", converteparaDecimal(Wire.read()));
+      snprintf(mes, sizeof(mes), "%02u", converteparaDecimal(Wire.read()));
+      snprintf(ano, sizeof(ano), "%02u", converteparaDecimal(Wire.read()));
+
       #if(DISPLAY_TYPE == DISPLAY_LCD_PRL || DISPLAY_TYPE == DISPLAY_LCD_I2C)
-      
+
         lcdClear();
-        lcdPrint(1, 3, diadomes + "/" + mes + "/" + ano + " " + diadasemanaString);
-        lcdPrint(2, 5, horas + ":" + minutos + ":" + segundos);
+        char dataAtual[17];
+        char horaAtual[17];
+        snprintf(dataAtual, sizeof(dataAtual), "%s/%s/%s %s", diadomes, mes, ano, diadasemanaString);
+        snprintf(horaAtual, sizeof(horaAtual), "%s:%s:%s", horas, minutos, segundos);
+        lcdPrint(1, 3, dataAtual);
+        lcdPrint(2, 5, horaAtual);
         lcdWrite();
 
       #endif
@@ -118,7 +116,7 @@ void setDateClock(byte diadomes, byte mes, byte ano, byte horas, byte diadaseman
 // Data  : 20/11/2018 14:20
 //WWWWWWWWWW*********************************************************************************
 
-void setClock(String parametro, byte valor) 
+void setClock(const String& parametro, byte valor)
 {
   byte zero = 0x00;
   Wire.beginTransmission(ADDRESS_DS1307);
@@ -126,53 +124,47 @@ void setClock(String parametro, byte valor)
   Wire.endTransmission();
   Wire.requestFrom(ADDRESS_DS1307, 7);
 
-  String segundos = String(converteparaDecimal(Wire.read()));
-  if (segundos.toInt() < 10)
-    segundos = "0" + segundos;
-  String minutos = String(converteparaDecimal(Wire.read()));
-  if (minutos.toInt() < 10)
-    minutos = "0" + minutos;
-  String horas = String(converteparaDecimal(Wire.read() & 0b111111));
-  if (horas.toInt() < 10)
-    horas = "0" + horas;
+  char segundos[3];
+  char minutos[3];
+  char horas[3];
+  snprintf(segundos, sizeof(segundos), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(minutos, sizeof(minutos), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(horas, sizeof(horas), "%02u", converteparaDecimal(Wire.read() & 0b111111));
 
   int diadasemana = converteparaDecimal(Wire.read());
-  String diadasemanaString;
-  switch (diadasemana) 
+  const char* diadasemanaString = "";
+  switch (diadasemana)
   {
-    case 1: diadasemanaString = F("Seg"); break;
-    case 2: diadasemanaString = F("Ter"); break;
-    case 3: diadasemanaString = F("Qua"); break;
-    case 4: diadasemanaString = F("Qui"); break;
-    case 5: diadasemanaString = F("Sex"); break;
-    case 6: diadasemanaString = F("Sab"); break;
-    case 7: diadasemanaString = F("Dom"); break;
+    case 1: diadasemanaString = "Seg"; break;
+    case 2: diadasemanaString = "Ter"; break;
+    case 3: diadasemanaString = "Qua"; break;
+    case 4: diadasemanaString = "Qui"; break;
+    case 5: diadasemanaString = "Sex"; break;
+    case 6: diadasemanaString = "Sab"; break;
+    case 7: diadasemanaString = "Dom"; break;
   }
 
-  String diadomes = String(converteparaDecimal(Wire.read()));
-  if (diadomes.toInt() < 10)
-    diadomes = "0" + diadomes;
-  String mes = String(converteparaDecimal(Wire.read()));
-  if (mes.toInt() < 10)
-    mes = "0" + mes;
-  String ano = String(converteparaDecimal(Wire.read()));
-  if (ano.toInt() < 10)
-    ano = "0" + ano;
+  char diadomes[3];
+  char mes[3];
+  char ano[3];
+  snprintf(diadomes, sizeof(diadomes), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(mes, sizeof(mes), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(ano, sizeof(ano), "%02u", converteparaDecimal(Wire.read()));
 
   if(parametro == F("hrs"))
-    setDateClock(diadomes.toInt(), mes.toInt(), ano.toInt(), valor, diadasemana, minutos.toInt(), segundos.toInt()); 
+    setDateClock(atoi(diadomes), atoi(mes), atoi(ano), valor, diadasemana, atoi(minutos), atoi(segundos));
   else if(parametro == F("min"))
-    setDateClock(diadomes.toInt(), mes.toInt(), ano.toInt(), horas.toInt(), diadasemana, valor, segundos.toInt()); 
+    setDateClock(atoi(diadomes), atoi(mes), atoi(ano), atoi(horas), diadasemana, valor, atoi(segundos));
   else if(parametro == F("sec"))
-    setDateClock(diadomes.toInt(), mes.toInt(), ano.toInt(), horas.toInt(), diadasemana, minutos.toInt(), valor); 
+    setDateClock(atoi(diadomes), atoi(mes), atoi(ano), atoi(horas), diadasemana, atoi(minutos), valor);
   else if(parametro == F("diaMes"))
-    setDateClock(valor, mes.toInt(), ano.toInt(), horas.toInt(), diadasemana, minutos.toInt(), segundos.toInt()); 
+    setDateClock(valor, atoi(mes), atoi(ano), atoi(horas), diadasemana, atoi(minutos), atoi(segundos));
   else if(parametro == F("diaSem"))
-    setDateClock(diadomes.toInt(), mes.toInt(), ano.toInt(), horas.toInt(), valor, minutos.toInt(), segundos.toInt()); 
+    setDateClock(atoi(diadomes), atoi(mes), atoi(ano), atoi(horas), valor, atoi(minutos), atoi(segundos));
   else if(parametro == F("mes"))
-    setDateClock(diadomes.toInt(), valor, ano.toInt(), horas.toInt(), diadasemana, minutos.toInt(), segundos.toInt()); 
+    setDateClock(atoi(diadomes), valor, atoi(ano), atoi(horas), diadasemana, atoi(minutos), atoi(segundos));
   else if(parametro == F("ano"))
-    setDateClock(diadomes.toInt(), mes.toInt(), valor, horas.toInt(), diadasemana, minutos.toInt(), segundos.toInt()); 
+    setDateClock(atoi(diadomes), atoi(mes), valor, atoi(horas), diadasemana, atoi(minutos), atoi(segundos));
 
 }
 
@@ -181,7 +173,7 @@ void setClock(String parametro, byte valor)
 // Data  : 20/11/2018 14:20
 //WWWWWWWWWW*********************************************************************************
 
-byte getClock(String parametro) 
+byte getClock(const String& parametro)
 {
   byte zero = 0x00;
   Wire.beginTransmission(ADDRESS_DS1307);
@@ -189,46 +181,40 @@ byte getClock(String parametro)
   Wire.endTransmission();
   Wire.requestFrom(ADDRESS_DS1307, 7);
 
-  String segundos = String(converteparaDecimal(Wire.read()));
-  if (segundos.toInt() < 10)
-    segundos = "0" + segundos;
-  String minutos = String(converteparaDecimal(Wire.read()));
-  if (minutos.toInt() < 10)
-    minutos = "0" + minutos;
-  String horas = String(converteparaDecimal(Wire.read() & 0b111111));
-  if (horas.toInt() < 10)
-    horas = "0" + horas;
+  char segundos[3];
+  char minutos[3];
+  char horas[3];
+  snprintf(segundos, sizeof(segundos), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(minutos, sizeof(minutos), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(horas, sizeof(horas), "%02u", converteparaDecimal(Wire.read() & 0b111111));
 
   int diadasemana = converteparaDecimal(Wire.read());
-  String diadasemanaString;
-  switch (diadasemana) 
+  const char* diadasemanaString = "";
+  switch (diadasemana)
   {
-    case 1: diadasemanaString = F("Seg"); break;
-    case 2: diadasemanaString = F("Ter"); break;
-    case 3: diadasemanaString = F("Qua"); break;
-    case 4: diadasemanaString = F("Qui"); break;
-    case 5: diadasemanaString = F("Sex"); break;
-    case 6: diadasemanaString = F("Sab"); break;
-    case 7: diadasemanaString = F("Dom"); break;
+    case 1: diadasemanaString = "Seg"; break;
+    case 2: diadasemanaString = "Ter"; break;
+    case 3: diadasemanaString = "Qua"; break;
+    case 4: diadasemanaString = "Qui"; break;
+    case 5: diadasemanaString = "Sex"; break;
+    case 6: diadasemanaString = "Sab"; break;
+    case 7: diadasemanaString = "Dom"; break;
   }
 
-  String diadomes = String(converteparaDecimal(Wire.read()));
-  if (diadomes.toInt() < 10)
-    diadomes = "0" + diadomes;
-  String mes = String(converteparaDecimal(Wire.read()));
-  if (mes.toInt() < 10)
-    mes = "0" + mes;
-  String ano = String(converteparaDecimal(Wire.read()));
-  if (ano.toInt() < 10)
-    ano = "0" + ano;
+  char diadomes[3];
+  char mes[3];
+  char ano[3];
+  snprintf(diadomes, sizeof(diadomes), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(mes, sizeof(mes), "%02u", converteparaDecimal(Wire.read()));
+  snprintf(ano, sizeof(ano), "%02u", converteparaDecimal(Wire.read()));
 
-       if(parametro == F("hrs"))    return(horas.toInt());
-  else if(parametro == F("min"))    return(minutos.toInt());
-  else if(parametro == F("sec"))    return(segundos.toInt());
-  else if(parametro == F("diaMes")) return(diadomes.toInt());
+       if(parametro == F("hrs"))    return(atoi(horas));
+  else if(parametro == F("min"))    return(atoi(minutos));
+  else if(parametro == F("sec"))    return(atoi(segundos));
+  else if(parametro == F("diaMes")) return(atoi(diadomes));
   else if(parametro == F("diaSem")) return(diadasemana);
-  else if(parametro == F("mes"))    return(mes.toInt());
-  else if(parametro == F("ano"))    return(ano.toInt());
+  else if(parametro == F("mes"))    return(atoi(mes));
+  else if(parametro == F("ano"))    return(atoi(ano));
 
 }
 

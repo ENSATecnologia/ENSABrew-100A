@@ -105,7 +105,7 @@ void controlKeepAlive(uint8_t auxTypeAction)
 // Data  : 22/01/2020	10:00
 //WWWWWWWWWW*********************************************************************************
 
-void sendDataAPP(uint8_t *auxInfoData, String *auxSendData) 
+void sendDataAPP(uint8_t *auxInfoData, const String *auxSendData)
 {
 	// ------------------------------------------------------- //
 	// Formato e significado dos vetores
