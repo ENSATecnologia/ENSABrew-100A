@@ -19,15 +19,17 @@ O repositorio reune firmware, bibliotecas, protocolo, projeto mecanico, PCB e lo
 | `ENSABrewMechanicalProject/` | Projeto mecanico |
 | `Protocol/` e `ENSABrewProtocol/` | Documentacao de protocolo |
 
-### Resultado da auditoria
+### Diretriz de manutencao
 
-Auditoria estatica do diretorio, com foco no firmware ativo em `ENSABrewFirmware/ATMEL/ENSABrew/` e na variante `ENSABrewBuffaloBeer/`:
+`ENSABrew/` e a base ativa de manutencao. `ENSABrewBuffaloBeer/` deve ser tratada como arvore legada/historica, mantida apenas para referencia e comparacao. Novas mudancas devem entrar em `ENSABrew/`, salvo necessidade explicita de suporte a essa variante antiga.
+
+### Resultado da auditoria
 
 - A recepcao serial foi corrigida para nao deixar interrupcoes desligadas ao final de um ciclo incompleto de leitura. A protecao de buffer tambem ficou consistente nas duas arvores de firmware.
 - O uso de `DynamicJsonDocument` e `String` em AVR continua presente em pontos criticos de serial e comunicacao APP.
 - Senhas e identificadores sensiveis continuam hardcoded, inclusive `SENHA_MASTER`, `SENHA_USER` e o `DEFAULT_ID_MODULE`.
 - O tamanho maximo do pacote serial existe no codigo (`DATA_UTIL_SERIAL = 512`), mas nao esta descrito de forma clara no protocolo.
-- Existem duas arvores de firmware com divergencias funcionais. O README precisa deixar claro que `ENSABrew/` e a base principal e `ENSABrewBuffaloBeer/` e uma variante antiga/diferenciada.
+- Existem duas arvores de firmware com divergencias funcionais. A documentacao precisa tratar `ENSABrewBuffaloBeer/` como historica para evitar manutencao dupla.
 
 ### Ajustes adicionais que ainda valem
 
@@ -36,7 +38,7 @@ Auditoria estatica do diretorio, com foco no firmware ativo em `ENSABrewFirmware
 - Reduzir o uso de `String` no firmware principal, especialmente nas rotinas de serial, exibicao e montagem de JSON.
 - Tratar explicitamente pacote incompleto, pacote excedido e erro de autenticao, sem depender de comportamento implcito do loop.
 - Separar melhor codigo do projeto e dependencias vendorizadas, para facilitar manutencao e auditoria.
-- Atualizar a documentacao com a arvore realmente ativa, os forks historicos e o caminho recomendado para manutencao.
+- Remover ambiguidade entre o firmware ativo e a arvore legada, para que o caminho recomendado de manutencao fique obvio.
 
 ### Observacao
 
@@ -67,15 +69,17 @@ This repository gathers firmware, libraries, protocol, mechanical project, PCB a
 | `ENSABrewMechanicalProject/` | Mechanical project |
 | `Protocol/` and `ENSABrewProtocol/` | Protocol documentation |
 
-### Audit result
+### Maintenance direction
 
-Static audit of the directory, focused on the active firmware in `ENSABrewFirmware/ATMEL/ENSABrew/` and the `ENSABrewBuffaloBeer/` variant:
+`ENSABrew/` is the active maintenance base. `ENSABrewBuffaloBeer/` should be treated as a legacy/historical tree, kept only for reference and comparison. New changes should land in `ENSABrew/` unless there is an explicit need to support that older variant.
+
+### Audit result
 
 - Serial reception has been corrected so it no longer leaves interrupts disabled after an incomplete read cycle. Buffer protection is now consistent across both firmware trees.
 - `DynamicJsonDocument` and `String` usage is still present in critical AVR serial and APP communication paths.
 - Sensitive values are still hardcoded, including `SENHA_MASTER`, `SENHA_USER` and `DEFAULT_ID_MODULE`.
 - The maximum serial packet size exists in code (`DATA_UTIL_SERIAL = 512`), but it is not clearly documented in the protocol.
-- There are two firmware trees with functional divergence. The README should make it explicit that `ENSABrew/` is the main base and `ENSABrewBuffaloBeer/` is an older/different variant.
+- There are two firmware trees with functional divergence. The documentation should classify `ENSABrewBuffaloBeer/` as historical to avoid maintaining two active code paths.
 
 ### Additional code improvements worth doing
 
@@ -84,7 +88,7 @@ Static audit of the directory, focused on the active firmware in `ENSABrewFirmwa
 - Reduce `String` usage in the main firmware, especially in serial, display and JSON assembly paths.
 - Handle incomplete packets, oversized packets and authentication failures explicitly instead of relying on loop behavior.
 - Separate project code from vendored dependencies more clearly to simplify maintenance and auditability.
-- Update the docs with the real active tree, historical forks and the recommended maintenance path.
+- Remove ambiguity between the active firmware and the legacy tree so the recommended maintenance path stays obvious.
 
 ### Note
 
