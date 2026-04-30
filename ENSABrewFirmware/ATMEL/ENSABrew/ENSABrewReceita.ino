@@ -1788,19 +1788,18 @@ void respondeReceitaRemota(int type, byte cmd, JsonObject dataObject)
     int idxReceita = idxReceitaArray[RESET].as<int>();
     prReceita = regReceita[idxReceita - 1];
 
-    String typeCommandUpper = String(type, HEX);
-    typeCommandUpper.toUpperCase();
-    String commandUpper = String(cmd, HEX);
-    commandUpper.toUpperCase();
+    char typeCommandUpper[3];
+    char commandUpper[3];
+    snprintf(typeCommandUpper, sizeof(typeCommandUpper), "%02X", (unsigned int)(type & 0xFF));
+    snprintf(commandUpper, sizeof(commandUpper), "%02X", (unsigned int)(cmd & 0xFF));
 
-    const size_t bufferSize = JSON_OBJECT_SIZE(7);
-    DynamicJsonDocument jsonSendBuffer(bufferSize);
+    StaticJsonDocument<JSON_OBJECT_SIZE(7) + 1024> jsonSendBuffer;
     JsonObject dataReceita = jsonSendBuffer.to<JsonObject>();
 
     dataReceita[F("header")] = F("4E");
     dataReceita[F("product")] = F("0002");
     dataReceita[F("type")] = F("D002");
-    dataReceita[F("id")] = String(configGeral.idModule);
+    dataReceita[F("id")] = configGeral.idModule;
     dataReceita[F("typeCmd")] = typeCommandUpper;
     dataReceita[F("cmd")] = commandUpper;
 
@@ -1835,7 +1834,7 @@ void respondeReceitaRemota(int type, byte cmd, JsonObject dataObject)
     for (register int ind = 0; ind < prReceita.qtdeWhirlpool; ind++)
       minWhirlpoolArray.add(prReceita.whirlpool[ind].tempo);
 
-    dataReceita[F("minDescanso")] = prReceita.descanso[ind].tempo;
+    dataReceita[F("minDescanso")] = prReceita.descanso[RESET].tempo;
 
     code = F("A2"); // Success!
 

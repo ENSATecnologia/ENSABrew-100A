@@ -46,10 +46,10 @@ void senhaMenuConfig(void )
     stChar = F("_");
 
     // Verifica se é a senha MASTER e vai para o menu principal
-    if (stringSenha == String(SENHA_MASTER)) 
+    if (stringSenha == configGeral.senhaMaster) 
     { bipAcerto(); passoMaquina = mMENU_CONFIGURACAO; actualMenu = mMENU_CONFIGURACAO; }
     // Verifica se é a senha USER e vai para o menu do usuário 
-    else if (stringSenha == String(SENHA_USER)) 
+    else if (stringSenha == configGeral.senhaUser) 
     { bipAcerto(); passoMaquina = mMENU_USER_CONFIG; actualMenu = mMENU_USER_CONFIG; }
     // Se errou a senha, retorna com mensagem de erro
     else 

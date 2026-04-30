@@ -168,19 +168,18 @@ void getIdModule(void )
 
 void getTelaAtual(int type, byte cmd, JsonObject dataObject) 
 {
-  String typeCommandUpper = String(type, HEX);
-  typeCommandUpper.toUpperCase();
-  String commandUpper = String(cmd, HEX);
-  commandUpper.toUpperCase();
+  char typeCommandUpper[3];
+  char commandUpper[3];
+  snprintf(typeCommandUpper, sizeof(typeCommandUpper), "%02X", (unsigned int)type & 0xFF);
+  snprintf(commandUpper, sizeof(commandUpper), "%02X", (unsigned int)cmd);
 
-  const size_t bufferSize = JSON_OBJECT_SIZE(7);
-  DynamicJsonDocument jsonSendBuffer(bufferSize);
+  StaticJsonDocument<JSON_OBJECT_SIZE(7) + 192> jsonSendBuffer;
   JsonObject enviaTelaObjJson = jsonSendBuffer.to<JsonObject>();
 
   enviaTelaObjJson[F("header")] = F("4E");
   enviaTelaObjJson[F("product")] = F("0002");
   enviaTelaObjJson[F("type")] = F("D002");
-  enviaTelaObjJson[F("id")] = String(configGeral.idModule);
+  enviaTelaObjJson[F("id")] = configGeral.idModule;
   enviaTelaObjJson[F("typeCmd")] = typeCommandUpper;
   enviaTelaObjJson[F("cmd")] = commandUpper;
   enviaTelaObjJson[F("tela")] = enviaTela(false);

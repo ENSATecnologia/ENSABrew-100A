@@ -24,13 +24,12 @@
 
 void setJsonData(int type, byte cmd) 
 {
-  String typeCommandUpper = String(type, HEX);
-  typeCommandUpper.toUpperCase();
-  String commandUpper = String(cmd, HEX);
-  commandUpper.toUpperCase();
+  char typeCommandUpper[3];
+  char commandUpper[3];
+  snprintf(typeCommandUpper, sizeof(typeCommandUpper), "%02X", (unsigned int)type & 0xFF);
+  snprintf(commandUpper, sizeof(commandUpper), "%02X", (unsigned int)cmd);
 
-  const size_t bufferSize = JSON_OBJECT_SIZE(7);
-  DynamicJsonDocument jsonSendBuffer(bufferSize);
+  StaticJsonDocument<JSON_OBJECT_SIZE(7) + 128> jsonSendBuffer;
   JsonObject dataReceita = jsonSendBuffer.to<JsonObject>();
 
   dataReceita[F("header")] = F("4E");
@@ -40,7 +39,7 @@ void setJsonData(int type, byte cmd)
   // Se o numero de serie nao for invalido, envia
   if(code != F("E15")) 
   {
-    dataReceita[F("id")] = String(configGeral.idModule);
+    dataReceita[F("id")] = configGeral.idModule;
     dataReceita[F("typeCmd")] = typeCommandUpper;
     dataReceita[F("cmd")] = commandUpper;
   }

@@ -63,8 +63,10 @@ void leConfigGeral(void )
     configGeral.kiPID = 5.0;
     configGeral.kdPID = 1.0;
 
-    String idModule = DEFAULT_ID_MODULE;
-    idModule.toCharArray(configGeral.idModule, 10);
+    strcpy(configGeral.authKey, "excENSA");
+    strcpy(configGeral.senhaMaster, "4E");
+    strcpy(configGeral.senhaUser, "1A");
+    strcpy(configGeral.idModule, "1020ABC01");
   }
   enableInterrupts(); // Enable interrupts
 }
