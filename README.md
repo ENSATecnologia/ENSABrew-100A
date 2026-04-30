@@ -99,3 +99,16 @@ The points above were inferred from static code and documentation review, not fr
 ### License
 
 See `LICENSE`.
+
+### Auditoria / Audit
+#### PT-BR
+- O firmware ja melhorou bastante, mas ainda vale reduzir String restante nas telas, entradas e mensagens dinamicas.
+- O contrato do protocolo serial precisa permanecer centralizado e coerente com o logger e o firmware ativo.
+- Configuracoes persistidas, limites de buffer e estados legados devem continuar documentados em um unico lugar.
+- A prioridade pratica agora e fechar o que ainda gera churn de heap e manter o caminho critico previsivel.
+#### EN
+- The firmware has improved a lot, but it is still worth reducing the remaining String usage in screens, inputs and dynamic messages.
+- The serial protocol contract must stay centralized and aligned with the logger and the active firmware.
+- Persisted configuration, buffer limits and legacy states should continue to be documented in one place.
+- The practical priority now is to close the remaining heap churn and keep the critical path predictable.
+
